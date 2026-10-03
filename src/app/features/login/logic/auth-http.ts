@@ -1,6 +1,11 @@
 import { Injectable,inject } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+export interface User{
+  uid: string;
+  name: string;
+  email: string;
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -14,6 +19,6 @@ export class AuthHTTP {
       'Content-Type': 'application/json'
     });
 
-    return this.http.post(`${environment.apiUrl}/login/google`, {}, { headers });
+    return this.http.post<User>(`${environment.apiUrl}/login/google`, {}, { headers });
   }
 }
