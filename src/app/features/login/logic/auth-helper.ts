@@ -7,6 +7,7 @@ import {
 import { AuthHTTP, User } from './auth-http';
 import { GoogleUser } from './auth.model';
 import { Router } from '@angular/router';
+import { LocalStorage } from '../../../core/logic/local-storage';
 
 
 @Injectable({
@@ -15,14 +16,21 @@ import { Router } from '@angular/router';
 export class AuthHelper {
   private apiCalls = inject(AuthHTTP)
   private auth = inject(Auth);
-   token = signal<string>('')
-  user = signal<User | null>(null)
+  private localStorage = inject(LocalStorage);
   private router = inject(Router);
+  user = signal<User | null>(null)
+isLoggedIn(): boolean {
+    return !!this.localStorage.getValue(this.localStorage.TOKEN_KEY);
+  }
+getToken() : string | null{
+  return this.localStorage.getValue(this.localStorage.TOKEN_KEY)
+}
   loginWithGoogle() {
     this.callFirebase().then(r => {
       if (r && r.token) {
+        this.localStorage.deleteValue(this.localStorage.TOKEN_KEY)
         this.apiCalls.loginWithGoogle(r.token).subscribe(res => {
-          this.token.set(r.token!)
+          this.localStorage.saveValue(this.localStorage.TOKEN_KEY,r.token!)
           this.user.set(res)
           this.router.navigateByUrl("/home")
         });
@@ -36,11 +44,9 @@ export class AuthHelper {
     try {
       const proveedor = new GoogleAuthProvider();
 
-      // Configuramos los scopes que queremos obtener del usuario
       proveedor.addScope('email');
       proveedor.addScope('profile');
 
-      // Abrimos el popup de Google para autenticación
       const resultado = await signInWithPopup(this.auth, proveedor);
 
       const usuarioFirebase = resultado.user;
