@@ -1,0 +1,61 @@
+:host {
+  display: block;
+  width: 100%;
+}
+.m3-card-elevated {
+  border-radius: 12px; /* Curvatura oficial M3 para tarjetas */
+  padding: 32px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  // box-shadow: 0px 1px 2px 0px color-mix(in srgb, var(--md-sys-color-shadow) 30%, transparent), 
+              // 0px 1px 3px 1px color-mix(in srgb, var(--md-sys-color-shadow) 15%, transparent);
+              
+  transition: box-shadow 0.2s cubic-bezier(0.2, 0, 0, 1), transform 0.2s;
+}
+
+.fire-illustration {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.icon-fire {
+  font-size: 80px; 
+  color: #FF9600; /* Naranja vibrante para denotar acción y energía */
+  font-variation-settings: 'FILL' 1;
+  z-index: 2;
+}
+
+/* Sombra base del fuego */
+.icon-shadow {
+  width: 48px;
+  height: 16px;
+  background-color: #FFF0B3; /* Tono amarillo pálido para asentar el ícono */
+  border-radius: 50%;
+  margin-top: -16px; /* Superpone el fuego sobre la sombra */
+  z-index: 1;
+}
+
+/* Tipografía de Alto Impacto */
+.streak-value {
+  font-family: 'Varela Round', 'Roboto', sans-serif;
+  font-size: 72px; /* Tamaño masivo para celebrar el logro */
+  font-weight: 900;
+  color: #FF9600;
+  margin: 0;
+  line-height: 1;
+  letter-spacing: -2px;
+}
+
+.streak-label {
+  font-family: 'Varela Round', 'Roboto', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #FF9600;
+  margin: 4px 0 0 0;
+}

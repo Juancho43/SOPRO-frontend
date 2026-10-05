@@ -25,12 +25,17 @@ isLoggedIn(): boolean {
 getToken() : string | null{
   return this.localStorage.getValue(this.localStorage.TOKEN_KEY)
 }
+getUserId(): string | null {
+  return this.localStorage.getValue(this.localStorage.USER_KEY)
+}
   loginWithGoogle() {
     this.callFirebase().then(r => {
       if (r && r.token) {
         this.localStorage.deleteValue(this.localStorage.TOKEN_KEY)
+        this.localStorage.deleteValue(this.localStorage.USER_KEY)
         this.apiCalls.loginWithGoogle(r.token).subscribe(res => {
           this.localStorage.saveValue(this.localStorage.TOKEN_KEY,r.token!)
+          this.localStorage.saveValue(this.localStorage.USER_KEY, r.uid)
           this.user.set(res)
           this.router.navigateByUrl("/home")
         });

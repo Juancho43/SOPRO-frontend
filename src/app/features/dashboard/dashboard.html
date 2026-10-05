@@ -1,1 +1,38 @@
-<p>dashboard works!</p>
+@if (!showRitual()){
+<app-ritual-form />
+}@else {
+
+<div class="dashboard-viewport">
+  <main class="bento-grid">
+
+    <div class="bento-card span-2">
+      <app-streak-card />
+    </div>
+
+    <!-- Secondary Bento Cards (Placeholders for stats, quick actions, etc.) -->
+    <div class="bento-card">
+      <div class="card-content">
+        <span class="material-symbols-outlined">bolt</span>
+        <h3>Activity</h3>
+      </div>
+    </div>
+
+    <div class="bento-card">
+      <div class="card-content">
+        <span class="material-symbols-outlined">analytics</span>
+        <h3>Progress</h3>
+      </div>
+    </div>
+
+    <div class="bento-card span-2">
+      <div class="card-content">
+        <span class="material-symbols-outlined">star</span>
+        <h3>Daily Goal Achieved</h3>
+      </div>
+    </div>
+  </main>
+</div>
+<app-navbar />
+
+
+}

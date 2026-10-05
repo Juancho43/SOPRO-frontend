@@ -1,0 +1,19 @@
+<nav class="m3-navigation-bar">
+  @for (tab of tabs; track tab.id) {
+    <div 
+      class="m3-nav-item" 
+      [class.active]="currentTab === tab.id"
+      (click)="selectTab(tab.id)">
+      
+      <div class="m3-icon-container">
+        <span 
+          class="material-symbols-outlined" 
+          [class.filled]="currentTab === tab.id">
+          {{ tab.icon }}
+        </span>
+      </div>
+      
+      <span class="m3-label">{{ tab.label }}</span>
+    </div>
+  }
+</nav>
