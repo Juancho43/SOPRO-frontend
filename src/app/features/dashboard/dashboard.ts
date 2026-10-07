@@ -11,6 +11,8 @@ import { RitualHelper } from '../rituals/logic/ritual-helper';
   styleUrl: './dashboard.scss',
 })
 export class Dashboard {
+  
   private ritualHelper = inject(RitualHelper);
   protected showRitual = computed(()=>this.ritualHelper.todaysRitual())
+  protected ritualStreak = computed(()=> this.ritualHelper.ritualStreak())
 }

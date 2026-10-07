@@ -3,6 +3,7 @@ import { inject, Injectable, computed } from '@angular/core';
 import { DailyRitual } from '../ritual-form/ritual-form';
 import { environment } from '../../../../environments/environment';
 import { AuthHelper } from '../../login/logic/auth-helper';
+import { HabitStreak } from '../../streak/HabitStreak';
 
 @Injectable({
   providedIn: 'root',
@@ -26,5 +27,12 @@ export class RitualHttp {
       'Content-Type': 'application/json'
     });
     return this.http.get<boolean>(`${environment.apiUrl}/rituals/today`,{headers})
+  }
+  getRitualStreak(){
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.token()!}`,
+      'Content-Type': 'application/json'
+    });
+    return this.http.get<HabitStreak>(`${environment.apiUrl}/streaks/habit/Ritual Diario`,{headers})
   }
 }
