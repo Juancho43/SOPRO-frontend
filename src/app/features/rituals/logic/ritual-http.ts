@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable, computed } from '@angular/core';
-import { DailyRitual } from '../ritual-form/ritual-form';
 import { environment } from '../../../../environments/environment';
 import { AuthHelper } from '../../login/logic/auth-helper';
 import { HabitStreak } from '../../streak/HabitStreak';
+import { DailyRitual } from './DailyRitual';
 
 @Injectable({
   providedIn: 'root',

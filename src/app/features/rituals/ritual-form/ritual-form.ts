@@ -1,14 +1,10 @@
 import { Component, inject, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import {form, FormField } from '@angular/forms/signals';
 import { RitualHttp } from '../logic/ritual-http';
 import { Router } from '@angular/router';
-export interface DailyRitual{
-  GratefulFor: string;
-  Goals: string[];
-  User_id: string;
-}
+import { DailyRitual } from '../logic/DailyRitual';
+
 @Component({
   selector: 'app-ritual-form',
   imports: [FormsModule, FormField],
