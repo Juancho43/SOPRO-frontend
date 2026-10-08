@@ -1,4 +1,4 @@
-<div class="celebration-wrapper">
+<div class="celebration-viewport">
   
   <div class="content-main">
     <div class="fire-icon-container">
@@ -6,20 +6,8 @@
       <div class="fire-shadow"></div>
     </div>
 
-    <h1 class="streak-number">{{ streakCount }}</h1>
+    <h1 class="streak-number">{{ streakCount() }}</h1>
     <h2 class="streak-label">días de racha</h2>
-
-    <div class="week-calendar">
-      @for (day of weekDays; track day.name) {
-        <div class="day-col">
-          <span class="day-name" [class.active]="day.status === 'current'">{{ day.name }}</span>
-          
-          <div class="day-circle" [class]="day.status">
-            <span class="material-symbols-outlined check-icon">check</span>
-          </div>
-        </div>
-      }
-    </div>
 
     <p class="motivation-text">
        ¡Extendiste tu racha como el <strong>ganador</strong> con una AMP que sos!
@@ -27,7 +15,7 @@
   </div>
 
   <div class="action-footer">
-    <button class="btn-continue" routerLink="/home">CONTINUAR</button>
+    <button class="md3-btn-filled" routerLink="/home">Adelante campeón!</button>
   </div>
 
 </div>

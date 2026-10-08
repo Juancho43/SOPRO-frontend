@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { RitualHelper } from '../../rituals/logic/ritual-helper';
 
 
 interface DayStatus {
@@ -13,22 +14,8 @@ interface DayStatus {
   styleUrl: './streak-celebration.scss',
 })
 export class StreakCelebration {
-streakCount: number = 32;
-  hoursLeft: number = 13;
+  private ritualHelper = inject(RitualHelper);
+  protected ritualStreak = computed(()=> this.ritualHelper.ritualStreak())
+  protected streakCount = computed(()=> this.ritualStreak()?.CurrentStreak)
 
-  // El mapa de progreso semanal
-  weekDays: DayStatus[] = [
-    { name: 'Do', status: 'completed' },
-    { name: 'Lu', status: 'completed' },
-    { name: 'Ma', status: 'current' },
-    { name: 'Mi', status: 'completed' },
-    { name: 'Ju', status: 'completed' },
-    { name: 'Vi', status: 'completed' },
-    { name: 'Sa', status: 'completed' },
-  ];
-
-  continue() {
-    // Acción para avanzar al siguiente objetivo
-    console.log('Disciplina forjada. Avanzando...');
-  }
 }
