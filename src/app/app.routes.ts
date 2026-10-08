@@ -3,6 +3,7 @@ import { Dashboard } from './features/dashboard/dashboard';
 import { Login } from './features/login/login';
 import { authGuard } from './features/login/logic/auth-guard';
 import { StreakCelebration } from './features/streak/streak-celebration/streak-celebration';
+import { GuestGuard } from './features/login/logic/guest-guard';
 
 export const routes: Routes = [
     {
@@ -17,11 +18,11 @@ export const routes: Routes = [
     },
     {
         path: 'login',
-        component: Login
+        component: Login,
+        canActivate: [GuestGuard]
     },
     {
-        path: '',
-        redirectTo: '/home',
-        pathMatch: 'full'
+        path: '**',
+        redirectTo: '/home'
     }
 ];

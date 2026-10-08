@@ -25,6 +25,10 @@ isLoggedIn(): boolean {
 getToken() : string | null{
   return this.localStorage.getValue(this.localStorage.TOKEN_KEY)
 }
+deleteData(){
+  this.localStorage.deleteValue(this.localStorage.TOKEN_KEY)
+  this.localStorage.deleteValue(this.localStorage.USER_KEY)
+}
 getUserId(): string | null {
   return this.localStorage.getValue(this.localStorage.USER_KEY)
 }
