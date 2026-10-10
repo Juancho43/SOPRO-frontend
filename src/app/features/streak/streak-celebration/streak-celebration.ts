@@ -16,6 +16,6 @@ interface DayStatus {
 export class StreakCelebration {
   private ritualHelper = inject(RitualHelper);
   protected ritualStreak = computed(()=> this.ritualHelper.ritualStreak())
-  protected streakCount = computed(()=> this.ritualStreak()?.CurrentStreak)
+  protected streakCount = computed(()=> this.ritualStreak()?.CurrentStreak! + 1)
 
 }

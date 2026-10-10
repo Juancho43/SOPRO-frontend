@@ -1,5 +1,5 @@
 export interface DailyRitual{
-  GratefulFor: string;
-  Goals: string[];
-  User_id: string;
+  grateful_for: string;
+  goals: string[];
+  user_id: string;
 }

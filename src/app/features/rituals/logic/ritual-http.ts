@@ -18,7 +18,7 @@ export class RitualHttp {
       'Authorization': `Bearer ${this.token()!}`,
       'Content-Type': 'application/json'
     });
-    ritual.User_id = id!
+    ritual.user_id = id!
     return this.http.post(`${environment.apiUrl}/rituals`, ritual, {headers})
   }
   todayRitual(){
@@ -34,5 +34,12 @@ export class RitualHttp {
       'Content-Type': 'application/json'
     });
     return this.http.get<HabitStreak>(`${environment.apiUrl}/streaks/habit/Ritual Diario`,{headers})
+  }
+  getRitualByDate(date: string){
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.token()!}`,
+      'Content-Type': 'application/json'
+    });
+    return this.http.get<DailyRitual>(`${environment.apiUrl}/rituals/${date}`,{headers})
   }
 }

@@ -1,38 +1,19 @@
-
 <div class="dashboard-viewport">
-@if (!showRitual()){
-<app-ritual-form />
-}@else {
-
   <main class="bento-grid">
     @if(this.ritualStreak()!){
     <div class="bento-card span-2">
-      <app-streak-card [streakValue]="this.ritualStreak()!.CurrentStreak" [streakLabel]="this.ritualStreak()!.HabitName"/>
+      <app-streak-card [streakValue]="this.ritualStreak()!.CurrentStreak"
+        [streakLabel]="this.ritualStreak()!.HabitName" />
     </div>
-  
+
     }
-
-    <div class="bento-card">
-      <div class="card-content">
-        <span class="material-symbols-outlined">bolt</span>
-        <h3>Activity</h3>
-      </div>
-    </div>
-
-    <div class="bento-card">
-      <div class="card-content">
-        <span class="material-symbols-outlined">analytics</span>
-        <h3>Progress</h3>
-      </div>
-    </div>
+    @if (todayRitual()!) {
 
     <div class="bento-card span-2">
-      <div class="card-content">
-        <span class="material-symbols-outlined">star</span>
-        <h3>Daily Goal Achieved</h3>
-      </div>
+      <app-ritual-accordion [ritual]="todayRitual()!" />
     </div>
+    }
+
   </main>
-<app-navbar />
-}
+  <app-navbar />
 </div>

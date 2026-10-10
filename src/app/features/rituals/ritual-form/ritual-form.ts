@@ -4,6 +4,7 @@ import {form, FormField } from '@angular/forms/signals';
 import { RitualHttp } from '../logic/ritual-http';
 import { Router } from '@angular/router';
 import { DailyRitual } from '../logic/DailyRitual';
+import { RitualHelper } from '../logic/ritual-helper';
 
 @Component({
   selector: 'app-ritual-form',
@@ -14,26 +15,27 @@ import { DailyRitual } from '../logic/DailyRitual';
 export class RitualForm {
 
 private service = inject(RitualHttp); 
+private ritualHelper = inject(RitualHelper);
 private router = inject(Router);
 
 actualizarMeta(index: number, nuevoValor: string) {
   this.ritual.update((estadoActual) => {
-    const nuevasMetas = [...estadoActual.Goals];
+    const nuevasMetas = [...estadoActual.goals];
     
     nuevasMetas[index] = nuevoValor;
     
     return {
       ...estadoActual,
-      Goals: nuevasMetas
+      goals: nuevasMetas
     };
   });
 }
   // Manejo de estado local utilizando signals puros[cite: 3]
   successMessage = signal<string | null>(null); 
 ritual = signal<DailyRitual>({
-  GratefulFor:"",
-  Goals: Array.from({ length: 10 }, () => ""),
-  User_id:''
+  grateful_for:"",
+  goals: Array.from({ length: 10 }, () => ""),
+  user_id:''
 })
 ritualForm = form(this.ritual,(schema)=>{
 
@@ -45,6 +47,7 @@ ritualForm = form(this.ritual,(schema)=>{
       this.service.saveRitual(ritualData).subscribe({
         next: () => {
           this.successMessage.set('¡Ritual completado! Tu enfoque está asegurado para hoy.'); //[cite: 2]
+          this.ritualHelper.setRitualCompletado();
           this.router.navigate(['streak'])
         },
         // Evitamos el tipo 'any'; usamos 'unknown' para manejar excepciones de forma segura[cite: 3]

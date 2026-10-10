@@ -15,7 +15,7 @@
             <input 
               id="agradecimiento" 
               type="text" 
-              [formField]="ritualForm.GratefulFor" 
+              [formField]="ritualForm.grateful_for" 
               aria-required="true"
               placeholder=" " 
             />
@@ -25,7 +25,7 @@
           <h3 class="m3-dialog-subhead">Tus 10 Metas</h3>
           
           <div class="metas-container">
-            @for (meta of ritual().Goals; track $index) {
+            @for (meta of ritual().goals; track $index) {
               <div class="m3-text-field">
                 <input 
                   type="text"
