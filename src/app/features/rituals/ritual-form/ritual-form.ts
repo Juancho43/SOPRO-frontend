@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import {form, FormField } from '@angular/forms/signals';
+import { FormField, form, required, pattern, applyEach } from '@angular/forms/signals';
 import { RitualHttp } from '../logic/ritual-http';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DailyRitual } from '../logic/DailyRitual';
 import { RitualHelper } from '../logic/ritual-helper';
@@ -34,15 +34,26 @@ actualizarMeta(index: number, nuevoValor: string) {
   successMessage = signal<string | null>(null); 
 ritual = signal<DailyRitual>({
   grateful_for:"",
-  goals: Array.from({ length: 10 }, () => ""),
+  goals: Array(10).fill(''),
   user_id:''
 })
-ritualForm = form(this.ritual,(schema)=>{
+private readonly validRegex = /^[a-zA-Z0-9\s%áéíóúÁÉÍÓÚñÑ]+$/;
+public ritualForm = form(this.ritual, (ritual) => {
+    
+    // Validación del agradecimiento
+    required(ritual.grateful_for);
+    pattern(ritual.grateful_for, this.validRegex);
 
-})
-
+    applyEach(ritual.goals, (goalItem) => {
+      required(goalItem);
+      pattern(goalItem, this.validRegex);
+    });
+  });
   onSubmit(): void {
-    if (this.ritualForm().valid()) {
+
+    if (this.ritualForm().invalid()) {
+      return;
+    }
       const ritualData = this.ritualForm().value();
       this.service.saveRitual(ritualData).subscribe({
         next: () => {
@@ -50,12 +61,10 @@ ritualForm = form(this.ritual,(schema)=>{
           this.ritualHelper.setRitualCompletado();
           this.router.navigate(['streak'])
         },
-        // Evitamos el tipo 'any'; usamos 'unknown' para manejar excepciones de forma segura[cite: 3]
         error: (err: unknown) => { 
           console.error('El fracaso es temporal. Hubo un error al registrar el ritual:', err);
         }
       });
-    }
   }
 
 

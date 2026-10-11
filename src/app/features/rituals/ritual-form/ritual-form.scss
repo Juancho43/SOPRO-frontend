@@ -1,20 +1,30 @@
+/* =========================================
+   1. DIÁLOGO (Enfoque Central y Contenedor)
+   ========================================= */
 .m3-dialog {
   z-index: 110;
   border: none;
   border-radius: 28px;
-  background: var(--md-sys-color-surface-container-high);  
+  background: var(--md-sys-color-surface-container-high, #1e1e24);  
   padding: 16px; 
+  
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   
   width: calc(100% - 32px); 
   max-width: 100%; 
   min-width: unset; 
   
-  max-height: calc(100dvh - 32px); 
+  /* LÍMITE ABSOLUTO DE ALTURA */
+  max-height: calc(100dvh - 48px); 
+  
+  /* El diálogo principal es un flex container */
   display: flex;
   flex-direction: column;
-  
   box-sizing: border-box; 
-  box-shadow: 0px 4px 8px 3px color-mix(in srgb, var(--md-sys-color-shadow) 15%, transparent);
+  box-shadow: 0px 8px 16px 4px rgba(0, 0, 0, 0.4);
   color: var(--md-sys-color-on-surface);
 
   @media (min-width: 600px) {
@@ -25,76 +35,125 @@
 }
 
 .m3-dialog::backdrop {
-  background: color-mix(in srgb, var(--md-sys-color-scrim) 40%, transparent); 
+  background: rgba(0, 0, 0, 0.7); 
 }
 
+/* =========================================
+   2. SUPERFICIE (El eslabón perdido del Scroll)
+   ========================================= */
+.m3-dialog-surface {
+  /* Esta capa intermedia debe heredar las restricciones de altura */
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0; /* REGLA DE ORO: Permite que el contenido interno se encoja y haga scroll */
+  width: 100%;
+}
+
+/* =========================================
+   3. TIPOGRAFÍA Y CABECERA
+   ========================================= */
 .m3-dialog-headline {
   font-family: 'Roboto', sans-serif;
   font-size: 24px;
   line-height: 32px;
-  font-weight: 400;
+  font-weight: 600;
   margin: 0 0 16px 0;
   color: var(--md-sys-color-on-surface);
+  flex-shrink: 0; /* Innegociable: el título nunca se aplasta */
 }
 
 .m3-dialog-subhead {
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
   font-weight: 500;
-  color: var(--md-sys-color-on-surface-variant);
+  color: var(--md-sys-color-primary); 
   margin: 24px 0 16px 0;
+  flex-shrink: 0;
 }
 
+/* =========================================
+   4. EL MOTOR DEL SCROLL (Contenido)
+   ========================================= */
 .m3-dialog-content {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  overflow-y: auto; 
-  flex-grow: 1;
-  padding-bottom: 8px; 
+  
+  overflow-y: auto; /* Activa el scroll vertical aquí */
+  flex: 1 1 auto; /* Permite que ocupe el espacio sobrante */
+  min-height: 0; /* Obliga a respetar el max-height de sus padres */
+  
+  padding-bottom: 16px; 
+  padding-right: 8px; /* Respiro visual para la barra de scroll */
+
+  /* Barra de scroll premium */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--md-sys-color-outline-variant, #444);
+    border-radius: 6px;
+  }
 }
 
 .metas-container {
   display: flex;
   flex-direction: column;
-  gap: 12px;
 }
 
+/* =========================================
+   5. CAMPOS DE TEXTO
+   ========================================= */
 .m3-text-field {
   position: relative;
   width: 100%;
-  height: 56px; 
+  margin-bottom: 28px; 
+  flex-shrink: 0; /* Los campos siempre mantienen su altura real de 56px */
 }
 
 .m3-text-field input {
   width: 100%;
-  height: 100%;
+  height: 56px; 
   box-sizing: border-box;
   border: 1px solid var(--md-sys-color-outline); 
-  border-radius: 4px;
+  border-radius: 8px;
   padding: 0 16px;
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
   background: transparent;
   color: var(--md-sys-color-on-surface);
   outline: none;
-  transition: border-color 0.2s cubic-bezier(0.2, 0, 0, 1);
-}
+  transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
 
-.m3-text-field input:focus {
-  border: 2px solid var(--md-sys-color-primary);
-  padding: 0 15px; 
+  /* FIX: Destruye el fondo blanco del Autocomplete del navegador */
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover, 
+  &:-webkit-autofill:focus, 
+  &:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px var(--md-sys-color-surface-container-high, #1e1e24) inset !important;
+    -webkit-text-fill-color: var(--md-sys-color-on-surface) !important;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+  
+  &:focus {
+    border: 2px solid var(--md-sys-color-primary);
+    padding: 0 15px; 
+  }
+
+  &.ng-invalid.ng-touched {
+    border-color: var(--md-sys-color-error); 
+  }
 }
 
 .m3-text-field label {
   position: absolute;
   left: 16px;
-  top: 16px;
+  top: 18px;
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
-  color: var(--md-sys-color-on-surface-variant); 
+  color: var(--md-sys-color-on-surface-variant);
   pointer-events: none;
-  background: var(--md-sys-color-surface-container-high); 
+  background: var(--md-sys-color-surface-container-high, #1e1e24); 
   padding: 0 4px;
   transition: 0.2s cubic-bezier(0.2, 0, 0, 1) all;
 }
@@ -107,50 +166,51 @@
   color: var(--md-sys-color-primary); 
 }
 
-.m3-dialog-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  margin-top: 16px; 
-  flex-shrink: 0; 
-  
-  @media (min-width: 600px) {
-    margin-top: 24px;
-  }
-}
-.m3-button-text, 
-.m3-button-filled {
-  height: 40px;
-  border-radius: 20px; 
-  padding: 0 24px;
+/* =========================================
+   6. MENSAJES DE ERROR
+   ========================================= */
+.error-text {
+  position: absolute;
+  bottom: -22px;
+  left: 12px;
+  font-size: 12px;
+  color: var(--md-sys-color-error);
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
-  font-size: 14px;
-  cursor: pointer;
-  border: none;
-  transition: background-color 0.2s, color 0.2s;
 }
 
-.m3-button-text {
-  background: transparent;
-  color: var(--md-sys-color-primary);
-}
-
-.m3-button-text:hover {
-  background: color-mix(in srgb, var(--md-sys-color-primary) 8%, transparent); 
+/* =========================================
+   7. BOTÓN DE ACCIÓN
+   ========================================= */
+.m3-dialog-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px; 
+  flex-shrink: 0; /* Innegociable: el botón nunca se esconde bajo el borde inferior */
 }
 
 .m3-button-filled {
+  height: 48px; 
+  width: 100%; 
+  border-radius: 24px; 
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  
   background: var(--md-sys-color-primary);
   color: var(--md-sys-color-on-primary);
-}
+  
+  transition: opacity 0.2s, transform 0.1s;
+  
+  &:active:not(:disabled) {
+    transform: scale(0.98);
+  }
 
-.m3-button-filled:hover {
-  background: color-mix(in srgb, var(--md-sys-color-on-primary) 8%, var(--md-sys-color-primary)); 
-}
-
-.m3-button-filled:disabled {
-  background: color-mix(in srgb, var(--md-sys-color-on-surface) 12%, transparent);
-  color: color-mix(in srgb, var(--md-sys-color-on-surface) 38%, transparent);
-  cursor: not-allowed;
+  &:disabled {
+    background: color-mix(in srgb, var(--md-sys-color-on-surface) 12%, transparent);
+    color: color-mix(in srgb, var(--md-sys-color-on-surface) 38%, transparent);
+    cursor: not-allowed;
+  }
 }

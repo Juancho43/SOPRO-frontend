@@ -16,10 +16,18 @@
               id="agradecimiento" 
               type="text" 
               [formField]="ritualForm.grateful_for" 
-              aria-required="true"
               placeholder=" " 
             />
             <label for="agradecimiento">¿Por qué estás agradecido hoy?</label>
+
+            <!-- Sintaxis exacta: llamadas a funciones () e iteración de array de errores -->
+            @if (ritualForm.grateful_for().touched() && ritualForm.grateful_for().invalid()) {
+              <div class="error-text">
+                @for (error of ritualForm.grateful_for().errors(); track error) {
+                  <span>{{ error.message }}</span>
+                }
+              </div>
+            }
           </div>
 
           <h3 class="m3-dialog-subhead">Tus 10 Metas</h3>
@@ -30,12 +38,19 @@
                 <input 
                   type="text"
                   id="meta-{{ $index }}"
-                  [ngModel]="meta"
-                  (ngModelChange)="actualizarMeta($index, $event)"
-                  name="meta-{{ $index }}"
+                  [formField]="ritualForm.goals[$index]"
                   placeholder=" " 
                 />
                 <label for="meta-{{ $index }}">Meta {{ $index + 1 }}</label>
+
+                <!-- Errores para cada meta individual -->
+                @if (ritualForm.goals[$index]().touched() && ritualForm.goals[$index]().invalid()) {
+                  <div class="error-text">
+                    @for (error of ritualForm.goals[$index]().errors(); track error) {
+                      <span>{{ error.message }}</span>
+                    }
+                  </div>
+                }
               </div>
             }
           </div>
@@ -44,14 +59,12 @@
     </div>
 
     <div class="m3-dialog-actions">
-      <button type="button" class="m3-button-text">
-        Cancelar
-      </button>
+      <!-- Evaluamos la señal global de invalidez en el formulario -->
       <button 
         type="submit" 
         form="ritual-form" 
         class="m3-button-filled" 
-        [disabled]="!ritualForm().valid()">
+        [disabled]="ritualForm().invalid()">
         Forjar Disciplina
       </button>
     </div>
