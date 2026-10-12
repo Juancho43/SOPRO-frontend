@@ -1,0 +1,98 @@
+<div class="focusmate-card">
+  
+  <!-- Cabecera Interactiva -->
+  <header class="fm-header clickable" (click)="toggleAccordion()" role="button" tabindex="0">
+    <div class="fm-brand">
+      <span class="material-symbols-outlined fm-icon">calendar_month</span>
+      <h2>Focusmate</h2>
+    </div>
+    <div class="fm-stats">
+      <span class="material-symbols-outlined">videocam</span>
+      <span>Hoy: {{ completedToday() }}/{{ totalToday() }}</span>
+      <span class="material-symbols-outlined chevron" [class.rotated]="isExpanded()">expand_more</span>
+    </div>
+  </header>
+
+  <!-- EL FOCO PRINCIPAL: Siempre visible si hay una sesión activa/próxima -->
+  @if (nextSession(); as next) {
+    <div class="fm-next-session">
+      <div class="ns-top-row">
+        <span class="ns-label">Próxima sesión</span>
+        <div class="ns-actions">
+          <a [href]="next.join_url || '#'" target="_blank" class="btn-unirse">Unirse</a>
+          <span class="text-or">or</span>
+          <a [href]="next.join_url || '#'" target="_blank" class="btn-icon">
+            <span class="material-symbols-outlined">open_in_new</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="ns-time-row">
+        <span class="time-main">{{ next.start_time | date:'HH:mm' }} - {{ next.end_time | date:'HH:mm' }}</span>
+        <span class="dot-amber"></span>
+        <span class="time-ampm">{{ next.start_time | date:'h:mm a' }}</span>
+      </div>
+
+      <div class="ns-details">
+        <p class="ns-title">Trabajo Profundo con {{ next.partner_name || 'Socio' }}</p>
+        <p class="ns-duration">{{ getDuration(next) }} min Session</p>
+      </div>
+    </div>
+  }
+
+  <!-- VISTA RESUMIDA (Acordeón Cerrado) -->
+  @if (!isExpanded() && upcomingSessions().length > 0) {
+    <div class="fm-upcoming animate-fade">
+      <h3 class="section-title">Siguientes</h3>
+      <ul class="upcoming-list">
+        @for (session of upcomingSessions(); track session.id) {
+          <li>
+            <span class="up-time">{{ session.start_time | date:'HH:mm' }}</span>
+            <span class="up-dot">•</span>
+            <span class="up-duration">{{ getDuration(session) }}m</span>
+            <span class="up-dot">•</span>
+            <span class="up-name">{{ session.partner_name || 'Socio' }}</span>
+          </li>
+        }
+      </ul>
+    </div>
+  }
+
+  <!-- VISTA PANORÁMICA (Acordeón Abierto: Línea de tiempo completa) -->
+  @if (isExpanded()) {
+    <div class="fm-timeline animate-fade">
+      <h3 class="section-title">Registro del Día</h3>
+      
+      <ul class="timeline-list">
+        @for (session of sortedSessions(); track session.id) {
+          <!-- Vinculación nativa de clases según el estado -->
+          <li 
+            class="timeline-item" 
+            [class.is-past]="getSessionStatus(session) === 'past'"
+            [class.is-next]="getSessionStatus(session) === 'next'"
+            [class.is-future]="getSessionStatus(session) === 'future'">
+            
+            <div class="tl-time">{{ session.start_time | date:'HH:mm' }}</div>
+            
+            <div class="tl-indicator">
+              @if (getSessionStatus(session) === 'past') {
+                <span class="material-symbols-outlined icon-past">check_circle</span>
+              } @else if (getSessionStatus(session) === 'next') {
+                <span class="dot-amber"></span>
+              } @else {
+                <span class="dot-future"></span>
+              }
+            </div>
+
+            <div class="tl-content">
+              <span class="tl-partner">{{ session.partner_name || 'Socio' }}</span>
+              <span class="tl-duration">{{ getDuration(session) }}m</span>
+            </div>
+
+          </li>
+        }
+      </ul>
+    </div>
+  }
+
+</div>
