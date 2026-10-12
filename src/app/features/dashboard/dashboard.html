@@ -1,11 +1,13 @@
 <div class="dashboard-viewport">
   <main class="bento-grid">
+      
     @if(this.ritualStreak()!){
     <div class="bento-card span-2">
       <app-streak-card [streakValue]="this.ritualStreak()!.CurrentStreak"
         [streakLabel]="this.ritualStreak()!.HabitName" />
     </div>
     }
+  
     @if (todayRitual()!) {
 
     <div class="bento-card span-2">

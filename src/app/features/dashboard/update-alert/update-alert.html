@@ -1,0 +1,14 @@
+@if (updateAvailable) {
+  <div class="update-banner-container">
+    <div class="update-content">
+      <span class="material-symbols-outlined icon">update</span>
+      <div class="text-group">
+        <strong>Nueva versión disponible</strong>
+        <span>Actualiza para cargar las últimas mejoras del sistema.</span>
+      </div>
+    </div>
+    <button class="btn-reload" (click)="forceReload()">
+      Actualizar Ahora
+    </button>
+  </div>
+}

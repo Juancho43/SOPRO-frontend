@@ -4,11 +4,7 @@
     <h2 id="dialog-title" class="m3-dialog-headline">El Ritual del Ganador</h2>
 
     <div class="m3-dialog-content">
-      @if (successMessage()) {
-        <div class="success-banner" role="alert">
-          {{ successMessage() }}
-        </div>
-      } @else {
+    
         <form (ngSubmit)="onSubmit()" id="ritual-form">
           
           <div class="m3-text-field">
@@ -20,7 +16,6 @@
             />
             <label for="agradecimiento">¿Por qué estás agradecido hoy?</label>
 
-            <!-- Sintaxis exacta: llamadas a funciones () e iteración de array de errores -->
             @if (ritualForm.grateful_for().touched() && ritualForm.grateful_for().invalid()) {
               <div class="error-text">
                 @for (error of ritualForm.grateful_for().errors(); track error) {
@@ -55,11 +50,9 @@
             }
           </div>
         </form>
-      }
     </div>
 
     <div class="m3-dialog-actions">
-      <!-- Evaluamos la señal global de invalidez en el formulario -->
       <button 
         type="submit" 
         form="ritual-form" 

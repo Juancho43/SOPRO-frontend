@@ -1,21 +1,21 @@
 import { Component, computed, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { RitualHelper } from '../../rituals/logic/ritual-helper';
+import { Router } from '@angular/router';
 
-
-interface DayStatus {
-  name: string;
-  status: 'completed' | 'current' | 'upcoming';
-}
 @Component({
   selector: 'app-streak-celebration',
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './streak-celebration.html',
   styleUrl: './streak-celebration.scss',
 })
 export class StreakCelebration {
   private ritualHelper = inject(RitualHelper);
+  private router = inject(Router);
   protected ritualStreak = computed(()=> this.ritualHelper.ritualStreak())
   protected streakCount = computed(()=> this.ritualStreak()?.CurrentStreak! + 1)
 
+  onContinueClicked() {
+    this.ritualHelper.onNewRitualSubmmited();
+    this.router.navigate(['/home']);
+  }
 }
