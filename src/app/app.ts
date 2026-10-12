@@ -10,22 +10,8 @@ import { RitualHelper } from './features/rituals/logic/ritual-helper';
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
-export class App implements OnInit {
+export class App {
   protected readonly title = signal('sopro');
   private theme = inject(ThemePicker);
-  private ritualHelper = inject(RitualHelper);
-
-  ngOnInit() {
-    // 1. Auditoría inicial al cargar la aplicación por primera vez
-    this.ritualHelper.verificarExpiracion();
-
-    // 2. El Sistema de Vigilancia Constante
-    // Escucha cada vez que la PWA vuelve a estar visible en la pantalla
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') {
-        // El usuario volvió a abrir la app. Evaluamos si cruzó la medianoche.
-        this.ritualHelper.verificarExpiracion();
-      }
-    });
-  }
+ 
 }

@@ -5,7 +5,6 @@
       <app-streak-card [streakValue]="this.ritualStreak()!.CurrentStreak"
         [streakLabel]="this.ritualStreak()!.HabitName" />
     </div>
-
     }
     @if (todayRitual()!) {
 
@@ -13,7 +12,10 @@
       <app-ritual-accordion [ritual]="todayRitual()!" />
     </div>
     }
+    <div class="bento-card span-2">
+      <app-sessions-accordion [sessions]="this.focusmateSessions()!" />
 
+    </div>
   </main>
   <app-navbar />
 </div>
