@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -7,21 +8,18 @@ import { Component } from '@angular/core';
   styleUrl: './navbar.scss',
 })
 export class Navbar {
-// El estado inicial: la página donde comienzan los ganadores
-  currentTab = 'inicio';
-
-  // Tu mapa de navegación hacia el éxito
+ private router = inject(Router);
+ protected currentTab = 'inicio';
   tabs = [
-    { id: 'inicio', label: 'Inicio', icon: 'home' },
-    { id: 'rachas', label: 'Rachas', icon: 'local_fire_department' },
-    { id: 'metas', label: 'Metas', icon: 'flag' },
-    { id: 'calendario', label: 'Calendario', icon: 'calendar_today' },
-    { id: 'cuenta', label: 'Cuenta', icon: 'person' }
+    { id: 'home', label: 'Inicio', icon: 'home' },
+    { id: 'rituals', label: 'Calendario', icon: 'calendar_today' },
+    { id: 'streaks', label: 'Rachas', icon: 'local_fire_department' },
+    { id: 'finances', label: 'Finanzas', icon: 'wallet' },
+    { id: 'menu', label: 'Menu', icon: 'menu' }
   ];
 
   selectTab(tabId: string) {
     this.currentTab = tabId;
-    // NOTA PARA LA ACCIÓN: Aquí inyectarás el Router de Angular
-    // para navegar a las distintas rutas de tu aplicación.
+    this.router.navigate([`/${tabId}`]);
   }
 }
