@@ -1,32 +1,73 @@
 import { Routes } from '@angular/router';
-import { Dashboard } from './features/dashboard/dashboard';
-import { Login } from './features/login/login';
 import { authGuard } from './features/login/logic/auth-guard';
-import { StreakCelebration } from './features/streak/streak-celebration/streak-celebration';
 import { GuestGuard } from './features/login/logic/guest-guard';
-import { RitualForm } from './features/rituals/ritual-form/ritual-form';
+import { FocusLayout } from './core/focus-layout/focus-layout';
+import { MainLayout } from './core/main-layout/main-layout';
 
 export const routes: Routes = [
     {
-        path: 'home',
-        component: Dashboard,
-        canActivate: [authGuard]
+        path: '',
+        component: FocusLayout,
+        children: [
+            {
+                path: 'login',
+                canActivate: [GuestGuard],
+                loadComponent: () => import('./features/login/login').then(m => m.Login)
+            },
+            {
+                path: 'rituals/form',
+                canActivate: [authGuard],
+                loadComponent: () => import('./features/rituals/ritual-form/ritual-form').then(m => m.RitualForm),
+            },
+            {
+                path: 'streaks/celebration',
+
+                canActivate: [authGuard],
+                loadComponent: () => import('./features/streak/streak-celebration/streak-celebration').then(m => m.StreakCelebration),
+            }
+        ],
     },
+
     {
-        path: 'ritual-form',
-        component: RitualForm,
-        canActivate: [authGuard]
+        path: '',
+        component: MainLayout,
+        children: [
+
+            {
+                path: 'home',
+                loadComponent: () => import('./features/dashboard/dashboard').then(m => m.Dashboard),
+                canActivate: [authGuard]
+            },
+            {
+                path: 'rituals',
+                canActivate: [authGuard],
+                loadComponent: () => import('./features/rituals/view/view').then(m => m.View),
+                children: [
+
+
+                ]
+            },
+            {
+                path: 'streaks',
+                loadComponent: () => import('./features/streak/view/view').then(m => m.View),
+                canActivate: [authGuard],
+                children: [
+
+                ]
+            },
+            {
+                path: 'finances',
+                canActivate: [authGuard],
+                loadComponent: () => import('./features/finance/view/view').then(m => m.View)
+            },
+            {
+                path: 'menu',
+                canActivate: [authGuard],
+                loadComponent: () => import('./features/menu/view/view').then(m => m.View)
+            },
+        ]
     },
-    {
-        path:'streak',
-        component: StreakCelebration,
-        canActivate: [authGuard]
-    },
-    {
-        path: 'login',
-        component: Login,
-        canActivate: [GuestGuard]
-    },
+ 
     {
         path: '**',
         redirectTo: '/home'

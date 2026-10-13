@@ -1,66 +1,51 @@
 <div #ritualModal class="m3-dialog" aria-labelledby="dialog-title">
   <div class="m3-dialog-surface">
-    
+
     <h2 id="dialog-title" class="m3-dialog-headline">El Ritual del Ganador</h2>
 
     <div class="m3-dialog-content">
-    
-        <form (ngSubmit)="onSubmit()" id="ritual-form">
-          
+
+      <form (ngSubmit)="onSubmit()" id="ritual-form">
+
+        <div class="m3-text-field">
+          <input id="agradecimiento" type="text" [formField]="ritualForm.grateful_for" placeholder=" " />
+          <label for="agradecimiento">¿Por qué estás agradecido hoy?</label>
+
+          @if (ritualForm.grateful_for().touched() && ritualForm.grateful_for().invalid()) {
+          <div class="error-text">
+            @for (error of ritualForm.grateful_for().errors(); track error) {
+            <span>{{ error.message }}</span>
+            }
+          </div>
+          }
+        </div>
+
+        <h3 class="m3-dialog-subhead">Tus 10 Metas</h3>
+
+        <div class="metas-container">
+          @for (meta of ritual().goals; track $index) {
           <div class="m3-text-field">
-            <input 
-              id="agradecimiento" 
-              type="text" 
-              [formField]="ritualForm.grateful_for" 
-              placeholder=" " 
-            />
-            <label for="agradecimiento">¿Por qué estás agradecido hoy?</label>
-
-            @if (ritualForm.grateful_for().touched() && ritualForm.grateful_for().invalid()) {
-              <div class="error-text">
-                @for (error of ritualForm.grateful_for().errors(); track error) {
-                  <span>{{ error.message }}</span>
-                }
-              </div>
+            <input type="text" id="meta-{{ $index }}" [formField]="ritualForm.goals[$index]" placeholder=" " />
+            <label for="meta-{{ $index }}">Meta {{ $index + 1 }}</label>
+            @if (ritualForm.goals[$index]().touched() && ritualForm.goals[$index]().invalid()) {
+            <div class="error-text">
+              @for (error of ritualForm.goals[$index]().errors(); track error) {
+              <span>{{ error.message }}</span>
+              }
+            </div>
             }
-          </div>
 
-          <h3 class="m3-dialog-subhead">Tus 10 Metas</h3>
-          
-          <div class="metas-container">
-            @for (meta of ritual().goals; track $index) {
-              <div class="m3-text-field">
-                <input 
-                  type="text"
-                  id="meta-{{ $index }}"
-                  [formField]="ritualForm.goals[$index]"
-                  placeholder=" " 
-                />
-                <label for="meta-{{ $index }}">Meta {{ $index + 1 }}</label>
-
-                <!-- Errores para cada meta individual -->
-                @if (ritualForm.goals[$index]().touched() && ritualForm.goals[$index]().invalid()) {
-                  <div class="error-text">
-                    @for (error of ritualForm.goals[$index]().errors(); track error) {
-                      <span>{{ error.message }}</span>
-                    }
-                  </div>
-                }
-              </div>
-            }
           </div>
-        </form>
+          }
+        </div>
+      </form>
     </div>
 
     <div class="m3-dialog-actions">
-      <button 
-        type="submit" 
-        form="ritual-form" 
-        class="m3-button-filled" 
-        [disabled]="ritualForm().invalid()">
+      <button type="submit" form="ritual-form" class="m3-button-filled" [disabled]="ritualForm().invalid()">
         Forjar Disciplina
       </button>
     </div>
-    
+
   </div>
 </div>

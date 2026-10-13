@@ -45,12 +45,12 @@ ritual = signal<DailyRitual>({
 private readonly validRegex = /^[a-zA-Z0-9\s%áéíóúÁÉÍÓÚñÑ]+$/;
 public ritualForm = form(this.ritual, (ritual) => {
     
-    required(ritual.grateful_for);
-    pattern(ritual.grateful_for, this.validRegex);
+    required(ritual.grateful_for, { message: 'El agradecimiento es obligatorio.' });
+    pattern(ritual.grateful_for, this.validRegex, { message: 'El agradecimiento contiene caracteres inválidos.' });
 
     applyEach(ritual.goals, (goalItem) => {
-      required(goalItem);
-      pattern(goalItem, this.validRegex);
+      required(goalItem, { message: 'La meta es obligatoria.' });
+      pattern(goalItem, this.validRegex, { message: 'La meta contiene caracteres inválidos.' });
     });
   });
   onSubmit(): void {
@@ -61,7 +61,7 @@ public ritualForm = form(this.ritual, (ritual) => {
       const ritualData = this.ritualForm().value();
       this.service.saveRitual(ritualData).subscribe({
         next: () => {
-          this.router.navigate(['streak'])
+          this.router.navigate(['streaks/celebration']);
         },
         error: (err: unknown) => { 
           console.error('El fracaso es temporal. Hubo un error al registrar el ritual:', err);

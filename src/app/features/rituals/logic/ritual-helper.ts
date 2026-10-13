@@ -1,13 +1,11 @@
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import {rxResource} from '@angular/core/rxjs-interop';
 import { RitualHttp } from './ritual-http';
-import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root',
 })
 export class RitualHelper {
   private service = inject(RitualHttp);
-  private router = inject(Router);
   private todaysResource = rxResource({
     stream:()=> this.service.todayRitual()
   })

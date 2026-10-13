@@ -1,0 +1,16 @@
+main {
+  flex: 1; 
+  
+  overflow-y: auto; 
+  overflow-x: hidden;
+  width: 100%;
+  box-sizing: border-box;
+
+  padding-top: 80px; 
+  padding-bottom: 96px; 
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
+}
