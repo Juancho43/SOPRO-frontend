@@ -61,6 +61,7 @@ public ritualForm = form(this.ritual, (ritual) => {
       const ritualData = this.ritualForm().value();
       this.service.saveRitual(ritualData).subscribe({
         next: () => {
+          this.ritualHelper.onNewRitualSubmmited();
           this.router.navigate(['streaks/celebration']);
         },
         error: (err: unknown) => { 

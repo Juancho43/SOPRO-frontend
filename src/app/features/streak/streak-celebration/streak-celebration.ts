@@ -12,10 +12,8 @@ export class StreakCelebration {
   private ritualHelper = inject(RitualHelper);
   private router = inject(Router);
   protected ritualStreak = computed(()=> this.ritualHelper.ritualStreak())
-  protected streakCount = computed(()=> this.ritualStreak()?.CurrentStreak! + 1)
 
   onContinueClicked() {
-    this.ritualHelper.onNewRitualSubmmited();
     this.router.navigate(['/home']);
   }
 }

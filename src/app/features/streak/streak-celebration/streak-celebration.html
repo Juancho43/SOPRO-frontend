@@ -6,9 +6,9 @@
       <div class="fire-shadow"></div>
     </div>
 
-    <h1 class="streak-number">{{ streakCount() }}</h1>
+    <h1 class="streak-number">{{ ritualStreak()?.CurrentStreak }}</h1>
     <h2 class="streak-label">días de racha</h2>
-
+    <h3 class="streak-sublabel">{{ritualStreak()?.HabitName}}</h3>
     <p class="motivation-text">
        ¡Extendiste tu racha como el <strong>ganador</strong> con una AMP que sos!
     </p>
