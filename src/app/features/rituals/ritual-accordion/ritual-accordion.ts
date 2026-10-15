@@ -1,4 +1,4 @@
-import { Component, input, signal } from '@angular/core';
+import { Component, input, linkedSignal, signal } from '@angular/core';
 import { DailyRitual } from '../logic/DailyRitual';
 
 @Component({
@@ -9,7 +9,8 @@ import { DailyRitual } from '../logic/DailyRitual';
 })
 export class RitualAccordion {
   ritual = input<DailyRitual>()
-isExpanded = signal(false);
+  expanded = input<boolean>(false)
+isExpanded = linkedSignal(()=>this.expanded());
 
   toggle() {
     this.isExpanded.update(v => !v);

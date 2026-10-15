@@ -1,0 +1,123 @@
+.calendar-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.page-header {
+  margin-bottom: 24px;
+  
+  .page-title {
+    font-family: 'Roboto', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--md-sys-color-on-surface);
+    margin: 0 0 8px 0;
+  }
+  
+  .page-subtitle {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: var(--md-sys-color-on-surface-variant);
+    margin: 0;
+  }
+}
+
+.content-area {
+  margin-top: 8px;
+}
+
+/* ESTADOS VISUALES (Vacío y Cargando) */
+.state-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+  background-color: var(--md-sys-color-surface-container-low, #f7f2f9);
+  border-radius: 24px;
+  color: var(--md-sys-color-on-surface-variant);
+  
+  h3 {
+    margin: 16px 0 8px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--md-sys-color-on-surface);
+  }
+  
+  p {
+    margin: 0;
+    font-size: 14px;
+  }
+}
+
+.icon-empty {
+  font-size: 48px;
+  color: var(--md-sys-color-primary);
+  opacity: 0.8;
+}
+
+.spinner {
+  font-size: 32px;
+  color: var(--md-sys-color-primary);
+  animation: rotate 1.5s linear infinite;
+}
+
+@keyframes rotate {
+  100% { transform: rotate(360deg); }
+}
+
+.animate-fade {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.content-area {
+  margin-top: 8px;
+  
+  /* FONDO DEL CONTENIDO: Usamos el nivel más bajo de superficie para contrastar con el fondo global */
+  background-color: var(--md-sys-color-surface-container-low, #17171a);
+  border-radius: 24px;
+  padding: 16px;
+  box-sizing: border-box;
+  
+  /* Altura mínima para que la tarjeta no se colapse cuando está vacía o cargando */
+  min-height: 240px; 
+  display: flex;
+  flex-direction: column;
+}
+
+/* ESTADOS VISUALES (Vacío y Cargando) */
+.state-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  /* El contenedor crece para llenar los 240px del content-area */
+  flex: 1; 
+  padding: 24px 16px;
+  text-align: center;
+  
+  /* ELIMINADO: Ya no tiene fondo ni radio propio, hereda del content-area */
+  background-color: transparent; 
+  color: var(--md-sys-color-on-surface-variant);
+  
+  h3 {
+    margin: 16px 0 8px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--md-sys-color-on-surface);
+  }
+  
+  p {
+    margin: 0;
+    font-size: 14px;
+  }
+}

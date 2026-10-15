@@ -35,5 +35,5 @@ export class RitualHelper {
       this.getRitualByDateResource.reload();
       this.ritualStreakResource.reload();
     }
-
+    
 }

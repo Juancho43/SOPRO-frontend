@@ -1,0 +1,14 @@
+<div class="m3-date-field">
+  <!-- El input nativo: Máximo rendimiento móvil -->
+  <input 
+    type="date" 
+    id="ritual-date" 
+    [value]="date()" 
+    (change)="onDateChange($event)"
+    placeholder=" "
+  />
+  <label for="ritual-date">Fecha del Ritual</label>
+  
+  <!-- Ícono Material alineado a la derecha -->
+  <span class="material-symbols-outlined trailing-icon">calendar_month</span>
+</div>

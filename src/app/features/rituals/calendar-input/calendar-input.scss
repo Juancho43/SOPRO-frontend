@@ -1,0 +1,90 @@
+.m3-date-field {
+  position: relative;
+  width: 100%;
+  margin-bottom: 32px; /* Un poco más de respiro inferior */
+}
+
+.m3-date-field input {
+  width: 100%;
+  height: 64px; /* Ligeramente más alto para dar sensación premium */
+  box-sizing: border-box;
+  
+  /* AQUÍ ESTÁ EL FONDO: Usamos la elevación de superficie M3 */
+  background-color: var(--md-sys-color-surface-container-high, #1e1e24);
+  
+  /* Borde más suave por defecto */
+  border: 1px solid rgba(255, 255, 255, 0.12); 
+  border-radius: 12px; /* Curva más amigable */
+  
+  padding: 0 48px 0 16px; 
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  color: var(--md-sys-color-on-surface);
+  outline: none;
+  transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+  position: relative;
+  z-index: 2; 
+
+  &::-webkit-calendar-picker-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    background: transparent;
+  }
+
+  &:focus {
+    /* El borde primario al hacer clic (el naranja o púrpura de tu tema) */
+    border: 2px solid var(--md-sys-color-primary);
+    padding-left: 15px; 
+    
+    /* Iluminamos ligeramente el fondo al hacer foco */
+    background-color: var(--md-sys-color-surface-container-highest, #2b2b33);
+  }
+}
+
+.m3-date-field label {
+  position: absolute;
+  left: 16px;
+  top: 22px; /* Ajustado por la nueva altura de 64px */
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  color: var(--md-sys-color-on-surface-variant);
+  pointer-events: none;
+  
+  /* FONDO DEL LABEL: Debe coincidir exactamente con el fondo del input para tapar la línea */
+  background: var(--md-sys-color-surface-container-high, #1e1e24); 
+  
+  padding: 0 4px;
+  transition: 0.2s cubic-bezier(0.2, 0, 0, 1) all;
+  z-index: 1;
+  border-radius: 4px; /* Pequeño suavizado en las esquinas del bloque del texto */
+}
+
+/* Animación del label cuando hay fecha o foco */
+.m3-date-field input:focus ~ label,
+.m3-date-field input:not([value=""]) ~ label {
+  top: -10px; /* Sube por encima del borde */
+  left: 12px;
+  font-size: 13px;
+  color: var(--md-sys-color-primary);
+  z-index: 3;
+  
+  /* Si hay foco, el label debe igualar el fondo iluminado */
+  background: var(--md-sys-color-surface-container-highest, #2b2b33);
+}
+
+.trailing-icon {
+  position: absolute;
+  right: 16px;
+  top: 20px; /* Ajustado por la nueva altura de 64px */
+  font-size: 24px;
+  color: var(--md-sys-color-on-surface-variant);
+  pointer-events: none; 
+  z-index: 1;
+}

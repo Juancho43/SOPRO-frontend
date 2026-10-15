@@ -1,0 +1,30 @@
+<div class="calendar-page animate-fade">
+  
+  <header class="page-header">
+    <h1 class="page-title">Registro Histórico</h1>
+    <p class="page-subtitle">Revisa tu disciplina a lo largo del tiempo.</p>
+  </header>
+
+  <!-- Nuestro nuevo selector M3 inyectando la fecha reactivamente -->
+  <app-calendar-input [(date)]="selectedDate" />
+
+  <div class="content-area">
+    
+    @if (isLoading()) {
+      <div class="state-container loading-state">
+        <span class="material-symbols-outlined spinner">hourglass_empty</span>
+        <p>Consultando los archivos...</p>
+      </div>
+    } @else if (historicalRitual()) {
+      <!-- Reutilizamos tu componente exacto, pasándole el ritual encontrado -->
+      <app-ritual-accordion [expanded]="true" [ritual]="historicalRitual()!" />
+    } @else {
+      <div class="state-container empty-state">
+        <span class="material-symbols-outlined icon-empty">auto_awesome</span>
+        <h3>Día sin forjar</h3>
+        <p>No se encontró un ritual documentado para esta fecha.</p>
+      </div>
+    }
+
+  </div>
+</div>
