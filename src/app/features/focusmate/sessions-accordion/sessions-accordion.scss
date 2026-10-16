@@ -1,12 +1,17 @@
-/* Contenedor Principal */
+/* =========================================
+   CONTENEDOR PRINCIPAL
+   ========================================= */
 .focusmate-card {
+  /* Usamos un color de superficie bajo para separar ligeramente del fondo global */
+  background-color: var(--md-sys-color-surface-container-low); 
   border-radius: 24px;
   padding: 20px;
-  color: #ffffff;
+  color: var(--md-sys-color-on-surface);
   font-family: 'Roboto', sans-serif;
   width: 100%;
   box-sizing: border-box;
   overflow: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* =========================================
@@ -25,16 +30,14 @@
     user-select: none;
     -webkit-tap-highlight-color: transparent;
     
-    &:hover {
-      opacity: 0.8;
-    }
+    &:hover { opacity: 0.8; }
   }
 
   .fm-brand {
     display: flex;
     align-items: center;
     gap: 8px;
-    color: #5c59d6; 
+    color: var(--md-sys-color-primary); /* Púrpura en Dark, Azul en Light */
     
     .fm-icon { font-size: 28px; }
     h2 {
@@ -48,7 +51,7 @@
     display: flex;
     align-items: center;
     gap: 6px;
-    color: #a1a1aa;
+    color: var(--md-sys-color-on-surface-variant);
     font-size: 15px;
     font-weight: 500;
     
@@ -59,9 +62,7 @@
       margin-left: 4px;
       font-size: 24px;
       
-      &.rotated {
-        transform: rotate(180deg);
-      }
+      &.rotated { transform: rotate(180deg); }
     }
   }
 }
@@ -70,11 +71,14 @@
    BLOQUE PRÓXIMA SESIÓN
    ========================================= */
 .fm-next-session {
-  background-color: #232332; 
-  border: 1px solid rgba(92, 89, 214, 0.3);
+  /* Destacado usando la superficie alta */
+  background-color: var(--md-sys-color-surface-container-high); 
+  /* Borde usando el color primario con transparencia para un tinte elegante */
+  border: 1px solid color-mix(in srgb, var(--md-sys-color-primary) 30%, transparent);
   border-radius: 16px;
   padding: 16px;
   margin-bottom: 24px;
+  transition: background-color 0.3s ease;
 
   .ns-top-row {
     display: flex;
@@ -82,7 +86,11 @@
     align-items: flex-start;
     margin-bottom: 8px;
 
-    .ns-label { color: #d1d1d6; font-size: 15px; font-weight: 500; }
+    .ns-label { 
+      color: var(--md-sys-color-on-surface-variant); 
+      font-size: 15px; 
+      font-weight: 500; 
+    }
 
     .ns-actions {
       display: flex;
@@ -90,25 +98,34 @@
       gap: 12px;
 
       .btn-unirse {
-        background-color: #424266;
-        color: #ffffff;
+        /* Invertimos el uso: Fondo primario, texto on-primary */
+        background-color: var(--md-sys-color-primary);
+        color: var(--md-sys-color-on-primary);
         text-decoration: none;
         padding: 6px 16px;
         border-radius: 8px;
         font-size: 14px;
         font-weight: 600;
-        transition: background 0.2s;
-        &:hover { background-color: #5c59d6; }
+        transition: background 0.2s, box-shadow 0.2s;
+        
+        &:hover { 
+          box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+          background-image: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));
+        }
       }
 
-      .text-or { color: #8e8e93; font-size: 14px; }
+      .text-or { 
+        color: var(--md-sys-color-on-surface-variant); 
+        font-size: 14px; 
+      }
       .btn-icon {
-        color: #d1d1d6;
+        color: var(--md-sys-color-on-surface-variant);
         text-decoration: none;
         display: flex;
         align-items: center;
         span { font-size: 20px; }
-        &:hover { color: #ffffff; }
+        
+        &:hover { color: var(--md-sys-color-primary); }
       }
     }
   }
@@ -119,14 +136,22 @@
     gap: 8px;
     margin-bottom: 8px;
 
-    .time-main { font-size: 18px; font-weight: 700; color: #ffffff; }
-    .dot-amber { width: 6px; height: 6px; background-color: #ff9800; border-radius: 50%; box-shadow: 0 0 8px #ff9800; }
-    .time-ampm { font-size: 16px; font-weight: 600; color: #d1d1d6; }
+    .time-main { font-size: 18px; font-weight: 700; color: var(--md-sys-color-on-surface); }
+    
+    /* El punto ámbar es semántico (Atención/Próximo), se puede usar hardcode o un color de error/terciario. */
+    .dot-amber { 
+      width: 6px; height: 6px; 
+      background-color: #ff9800; 
+      border-radius: 50%; 
+      box-shadow: 0 0 8px rgba(255, 152, 0, 0.5); 
+    }
+    
+    .time-ampm { font-size: 16px; font-weight: 600; color: var(--md-sys-color-on-surface-variant); }
   }
 
   .ns-details {
-    .ns-title { margin: 0 0 4px 0; font-size: 16px; font-weight: 600; color: #ffffff; }
-    .ns-duration { margin: 0; font-size: 14px; color: #8e8e93; }
+    .ns-title { margin: 0 0 4px 0; font-size: 16px; font-weight: 600; color: var(--md-sys-color-on-surface); }
+    .ns-duration { margin: 0; font-size: 14px; color: var(--md-sys-color-on-surface-variant); }
   }
 }
 
@@ -137,7 +162,7 @@
   margin: 0 0 12px 0;
   font-size: 15px;
   font-weight: 600;
-  color: #a1a1aa;
+  color: var(--md-sys-color-on-surface-variant);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -156,10 +181,10 @@
     gap: 8px;
     padding: 6px 0;
     font-size: 15px;
-    color: #d1d1d6;
+    color: var(--md-sys-color-on-surface);
     
     .up-time { font-weight: 500; }
-    .up-dot { color: #555; font-size: 18px; line-height: 0; }
+    .up-dot { color: var(--md-sys-color-outline-variant); font-size: 18px; line-height: 0; }
   }
 }
 
@@ -180,7 +205,8 @@
     top: 10px;
     bottom: 10px;
     width: 2px;
-    background: #333344;
+    /* Usamos outline-variant para la línea fina en ambos modos */
+    background: var(--md-sys-color-outline-variant);
     z-index: 0;
   }
 
@@ -195,7 +221,7 @@
     .tl-time {
       width: 40px;
       font-size: 14px;
-      color: #d1d1d6;
+      color: var(--md-sys-color-on-surface-variant);
       text-align: right;
       font-weight: 500;
     }
@@ -204,12 +230,14 @@
       width: 18px;
       display: flex;
       justify-content: center;
-      background: #17171a; /* Rompe la línea vertical detrás del punto */
+      /* Rompe la línea vertical con el mismo color del fondo principal de la tarjeta */
+      background: var(--md-sys-color-surface-container-low); 
       padding: 4px 0;
       
-      .dot-amber { width: 8px; height: 8px; background: #ff9800; border-radius: 50%; box-shadow: 0 0 8px #ff9800; }
-      .dot-future { width: 8px; height: 8px; background: #5c59d6; border-radius: 50%; }
-      .icon-past { font-size: 18px; color: #4ade80; } /* Verde de éxito */
+      .dot-amber { width: 8px; height: 8px; background: #ff9800; border-radius: 50%; box-shadow: 0 0 8px rgba(255, 152, 0, 0.5); }
+      .dot-future { width: 8px; height: 8px; background: var(--md-sys-color-primary); border-radius: 50%; }
+      /* Usar verde de sistema para éxito, sin alterar por tema claro/oscuro para no perder el significado */
+      .icon-past { font-size: 18px; color: #4caf50; } 
     }
 
     .tl-content {
@@ -217,22 +245,22 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: #232332;
+      background: var(--md-sys-color-surface-container-high);
       padding: 10px 14px;
       border-radius: 10px;
 
-      .tl-partner { font-size: 15px; color: #fff; font-weight: 500; }
-      .tl-duration { font-size: 13px; color: #a1a1aa; font-weight: 500;}
+      .tl-partner { font-size: 15px; color: var(--md-sys-color-on-surface); font-weight: 500; }
+      .tl-duration { font-size: 13px; color: var(--md-sys-color-on-surface-variant); font-weight: 500;}
     }
 
     /* Estilos específicos según el estado */
     &.is-past {
-      .tl-time { color: #555; }
+      .tl-time { color: var(--md-sys-color-outline); }
       .tl-content { 
         background: transparent; 
-        border: 1px solid #333344; 
+        border: 1px solid var(--md-sys-color-outline-variant); 
       }
-      .tl-partner { color: #a1a1aa; }
+      .tl-partner { color: var(--md-sys-color-on-surface-variant); }
     }
     
     &.is-next {
