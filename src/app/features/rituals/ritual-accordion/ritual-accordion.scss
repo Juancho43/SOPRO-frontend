@@ -1,34 +1,55 @@
+/* =========================================
+   CONTENEDOR PRINCIPAL DEL ACORDEÓN
+   ========================================= */
 .accordion-wrapper {
+  /* Fondo dinámico M3: claro de día, oscuro de noche */
   border-radius: 24px;
   overflow: hidden;
   width: 100%;
   box-sizing: border-box;
+  transition: background-color 0.3s ease;
+  
+  /* Sombra base */
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 
   &.expanded {
     .chevron-icon { 
       transform: rotate(180deg); 
     }
+    
     .accordion-body { 
+      /* La magia del Grid para animar altura a "auto" */
       grid-template-rows: 1fr; 
     }
-    .accordion-header {
-      padding-bottom: 12px; 
+    
+    .accordion-content {
+      /* Cuando está expandido, le devolvemos los márgenes internos verticalmente */
+      padding: 0 24px 24px 24px; 
     }
   }
 }
 
+/* =========================================
+   LA CABECERA (BOTÓN DE INTERACCIÓN)
+   ========================================= */
 .accordion-header {
   width: 100%;
   display: flex;
   justify-content: space-between; 
   align-items: center;
+  
+  /* Padding constante sin importar el estado */
   padding: 20px 24px;
   
   background: transparent; 
   border: none;
-  color: #ffffff;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.8;
+  }
 
   .header-title {
     display: flex;
@@ -36,6 +57,7 @@
     gap: 12px;
 
     .icon-accent {
+      /* Color de acento constante (Naranja) */
       color: #ff9800; 
       font-size: 24px;
     }
@@ -45,15 +67,22 @@
       font-family: 'Roboto', sans-serif;
       font-size: 16px;
       font-weight: 600;
+      /* Texto dinámico M3 */
+      color: var(--md-sys-color-on-surface);
+      transition: color 0.3s ease;
     }
   }
 
   .chevron-icon {
-    color: #a0a0a0;
-    transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1);
+    /* Color de ícono secundario M3 */
+    color: var(--md-sys-color-on-surface-variant);
+    transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1), color 0.3s ease;
   }
 }
 
+/* =========================================
+   EL CUERPO (MOTOR DE ANIMACIÓN)
+   ========================================= */
 .accordion-body {
   display: grid;
   grid-template-rows: 0fr; 
@@ -63,32 +92,41 @@
 .accordion-content {
   min-height: 0; 
   overflow: hidden;
-  padding: 0 24px; 
+  
+  /* LA CLAVE: El padding vertical arranca en 0 cuando está colapsado */
+  padding: 0 24px 0 24px; 
+  transition: padding 0.3s cubic-bezier(0.2, 0, 0, 1);
   
   p {
     font-family: 'Roboto', sans-serif;
     font-size: 15px;
     font-style: italic;
-    color: #b0b0b0;
+    color: var(--md-sys-color-on-surface-variant);
     line-height: 1.6;
     margin: 0 0 16px 0;
     padding-bottom: 16px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
+    
+    /* Borde sutil dinámico */
+    border-bottom: 1px solid var(--md-sys-color-outline-variant); 
   }
 }
 
+/* =========================================
+   LISTA DE METAS
+   ========================================= */
 .md3-list {
-  margin: 0 0 24px 0;
+  margin: 0;
   padding: 0 0 0 20px; 
   
   .md3-list-item {
     font-family: 'Roboto', sans-serif;
     font-size: 15px;
-    color: #dcdcdc;
+    color: var(--md-sys-color-on-surface);
     padding: 8px 0;
     line-height: 1.5;
     
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    /* Separadores de lista sutiles y dinámicos */
+    border-bottom: 1px solid var(--md-sys-color-outline-variant);
     
     &:last-child {
       border-bottom: none;
