@@ -51,14 +51,12 @@ export const routes: Routes = [
 
                 ]
             },
-            {
-                path: 'streaks',
-                loadComponent: () => import('./features/streak/view/view').then(m => m.View),
-                canActivate: [authGuard],
-                children: [
-
-                ]
-            },
+        {
+    path: 'streaks',
+    // Lazy loading del grupo de rutas completo
+    loadChildren: () => 
+      import('./features/streak/streak.routes').then(m => m.STREAKS_ROUTES)
+  },
             {
                 path: 'finances',
                 canActivate: [authGuard],

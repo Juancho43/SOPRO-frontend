@@ -1,0 +1,40 @@
+
+.fab-menu { 
+  position: fixed; 
+  bottom: 80px; 
+  right: 16px; 
+  z-index: 100; 
+} 
+
+.top-navbar {
+  background-color: var(--md-sys-color-surface);
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+}
+
+::ng-deep .mat-mdc-tab-group {
+  
+  .mdc-tab {
+    height: 48px !important;
+  }
+
+  /* Estado inactivo: enfoque visual secundario */
+  .mdc-tab__text-label {
+    color: var(--md-sys-color-on-surface-variant) !important;
+    font-weight: 500;
+  }
+
+  /* Estado activo: el objetivo principal */
+  .mdc-tab--active {
+    .mdc-tab__text-label {
+      color: var(--md-sys-color-primary) !important;
+    }
+  }
+
+  /* Ejecución del indicador activo según especificaciones M3 */
+  .mdc-tab-indicator__content--underline {
+    border-color: var(--md-sys-color-primary) !important;
+    border-top-width: 3px !important; /* Altura de 3dp */
+    border-top-left-radius: 3px !important; /* Esquinas redondeadas (3, 3, 0, 0) */
+    border-top-right-radius: 3px !important;
+  }
+}

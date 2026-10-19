@@ -1,1 +1,19 @@
-<router-outlet/>
+<!-- Top Navbar para sub-rutas de Épica 2 -->
+    <nav class="top-navbar bg-dark-surface sticky top-0 z-50">
+      <mat-tab-group (selectedTabChange)="onTabChange($event)" [selectedIndex]="activeTabIndex()">
+        <mat-tab label="Hábitos"></mat-tab>
+        <mat-tab label="Dominios"></mat-tab>
+        <mat-tab label="Trofeos"></mat-tab>
+        <mat-tab label="Sinergias"></mat-tab>
+      </mat-tab-group>
+    </nav>
+
+    <!-- Contenedor principal de vistas -->
+    <main class="content-container pb-20"> <!-- pb-20 para respetar la bottom navbar -->
+      <router-outlet/>
+    </main>
+
+    <!-- FAB Menu Dinámico -->
+    <button mat-fab color="primary" class="fab-menu" (click)="ejecutarAccionPrincipal()">
+      <mat-icon>{{ fabIcon() }}</mat-icon>
+    </button>
