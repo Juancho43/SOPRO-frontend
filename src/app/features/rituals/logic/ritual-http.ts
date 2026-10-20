@@ -2,8 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable, computed } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { AuthHelper } from '../../login/logic/auth-helper';
-import { HabitStreak } from '../../streak/HabitStreak';
 import { DailyRitual } from './DailyRitual';
+import { HabitStreak } from '../../streak/logic/HabitStreak';
 
 @Injectable({
   providedIn: 'root',
