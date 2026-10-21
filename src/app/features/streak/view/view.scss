@@ -1,16 +1,162 @@
+/* =========================================
+   CONTENEDOR DEL FAB MENU
+   ========================================= */
+.m3-fab-container {
+  position: fixed;
+  z-index: 100;
+  
+  /* Elevamos el FAB para que flote sobre tu navbar de 80px + un respiro de 16px */
+  bottom: 96px; 
+  right: 16px;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 
-.fab-menu { 
-  position: fixed; 
-  bottom: 80px; 
-  right: 16px; 
-  z-index: 100; 
-} 
-
-.top-navbar {
-  background-color: var(--md-sys-color-surface);
-  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+  /* HACK MOBILE-FIRST: Anclaje perfecto en pantallas anchas (PC) */
+  @media (min-width: 600px) {
+    /* Centra la posición al 50%, retrocede la mitad del contenedor (210px) y le da 16px de margen */
+    right: calc(50% - 210px + 16px);
+  }
 }
 
+/* =========================================
+   FAB PRINCIPAL (M3 Specs: 56x56, Radius 16px)
+   ========================================= */
+.m3-fab-primary {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px; 
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  /* TOKENS M3 PARA MODO CLARO/OSCURO AUTOMÁTICO */
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  
+  /* Sombras nativas de elevación M3 */
+  box-shadow: 0px 4px 8px 3px rgba(0, 0, 0, 0.15), 0px 1px 3px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+  
+  /* Bloqueamos el clic fantasma en móviles */
+  -webkit-tap-highlight-color: transparent;
+
+  &:hover {
+    box-shadow: 0px 6px 12px 4px rgba(0, 0, 0, 0.15), 0px 2px 4px rgba(0, 0, 0, 0.3);
+    background-image: linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08));
+  }
+
+  &:active {
+    transform: scale(0.95); /* Efecto de presión táctil */
+  }
+
+  .fab-icon {
+    font-size: 24px;
+    transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1);
+    
+    /* Gira el ícono 'add' para convertirlo visualmente en una 'X' de cierre */
+    &.rotated {
+      transform: rotate(135deg);
+    }
+  }
+}
+
+/* =========================================
+   MOTOR DE ANIMACIÓN (SPEED DIAL)
+   ========================================= */
+.m3-fab-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 16px; /* Separación entre sub-botones */
+  margin-bottom: 24px; /* Separación con el FAB principal */
+  
+  /* Estado Cerrado */
+  pointer-events: none;
+  
+  .m3-mini-fab {
+    transform: scale(0.5) translateY(20px);
+    opacity: 0;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Estado Abierto */
+  &.is-open {
+    pointer-events: auto;
+    
+    .m3-mini-fab {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+
+    /* Animación escalonada (Cascada) */
+    .m3-mini-fab:nth-child(1) { transition-delay: 0.10s; }
+    .m3-mini-fab:nth-child(2) { transition-delay: 0.05s; }
+    .m3-mini-fab:nth-child(3) { transition-delay: 0.00s; }
+  }
+}
+
+/* =========================================
+   MINI FABs (M3 Specs: 40x40, Radius 12px)
+   ========================================= */
+.m3-mini-fab {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+
+  .m3-fab-label {
+    /* Tonalidad de superficie elevada para contraste en dark mode */
+    background-color: var(--md-sys-color-surface-container-high);
+    color: var(--md-sys-color-on-surface);
+    padding: 6px 16px;
+    border-radius: 8px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .icon-wrapper {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px; 
+    
+    /* Colores de nivel secundario para no competir con el FAB principal */
+    background-color: var(--md-sys-color-secondary-container);
+    color: var(--md-sys-color-on-secondary-container);
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.2s;
+  }
+
+  &:hover .icon-wrapper {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08));
+  }
+}
+/* =========================================
+   TOP NAVBAR (Tabs)
+   ========================================= */
+.top-navbar {
+  /* Fondo responsivo claro/oscuro */
+  background-color: var(--md-sys-color-surface);
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+  
+  /* Asegura que el navbar se mantenga dentro del contenedor de 420px */
+  width: 100%;
+}
+
+/* ... Mantén tus estilos actuales de ::ng-deep .mat-mdc-tab-group aquí ... */
 ::ng-deep .mat-mdc-tab-group {
   
   .mdc-tab {

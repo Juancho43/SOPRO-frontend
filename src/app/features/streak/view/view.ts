@@ -1,4 +1,4 @@
-import { Component, computed, inject, Signal } from '@angular/core';
+import { Component, computed, inject, signal, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, NavigationEnd, Router, RouterModule, RouterOutlet } from '@angular/router';
 import { filter, map, startWith } from 'rxjs';
@@ -54,5 +54,16 @@ private router = inject(Router);
 
   ejecutarAccionPrincipal() {
     console.log('Acción FAB en pestaña:', this.activeTabIndex());
+  }
+  public isFabMenuOpen = signal<boolean>(false);
+
+  public toggleFabMenu(): void {
+    this.isFabMenuOpen.update(v => !v);
+  }
+
+  // Ejemplo de acciones
+  public ejecutarAccion(tipo: string): void {
+    console.log('Ejecutando acción:', tipo);
+    this.isFabMenuOpen.set(false); // Cierra el menú tras elegir
   }
 }

@@ -13,7 +13,40 @@
       <router-outlet/>
     </main>
 
-    <!-- FAB Menu Dinámico -->
-    <button mat-fab color="primary" class="fab-menu" (click)="ejecutarAccionPrincipal()">
-      <mat-icon>{{ fabIcon() }}</mat-icon>
+<!-- Contenedor del FAB Menu Dinámico -->
+<div class="m3-fab-container">
+  
+  <!-- Opciones secundarias (Se despliegan hacia arriba) -->
+  <div class="m3-fab-actions" [class.is-open]="isFabMenuOpen()">
+    
+    <button class="m3-mini-fab" (click)="ejecutarAccion('habito')">
+      <span class="m3-fab-label">Nuevo Hábito</span>
+      <div class="icon-wrapper">
+        <span class="material-symbols-outlined">task_alt</span>
+      </div>
     </button>
+
+    <button class="m3-mini-fab" (click)="ejecutarAccion('dominio')">
+      <span class="m3-fab-label">Nuevo Dominio</span>
+      <div class="icon-wrapper">
+        <span class="material-symbols-outlined">category</span>
+      </div>
+    </button>
+
+    <button class="m3-mini-fab" (click)="ejecutarAccion('trofeo')">
+      <span class="m3-fab-label">Nuevo Trofeo</span>
+      <div class="icon-wrapper">
+        <span class="material-symbols-outlined">emoji_events</span>
+      </div>
+    </button>
+
+  </div>
+
+  <!-- FAB Principal (El disparador) -->
+  <button class="m3-fab-primary" (click)="toggleFabMenu()">
+    <span class="material-symbols-outlined fab-icon" [class.rotated]="isFabMenuOpen()">
+      add
+    </span>
+  </button>
+
+</div>
