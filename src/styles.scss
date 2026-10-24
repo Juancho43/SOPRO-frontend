@@ -25,3 +25,10 @@ app-root {
   height: 100%;
   position: relative;
 }
+/* Quita el fondo blanco por defecto del contenedor del diálogo */
+.modal-transparente .mat-mdc-dialog-surface,
+.modal-transparente .mat-mdc-dialog-container {
+  background-color: transparent !important;
+  box-shadow: none !important; 
+  padding: 0 !important;
+}
