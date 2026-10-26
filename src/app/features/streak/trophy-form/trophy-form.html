@@ -1,0 +1,68 @@
+<form (ngSubmit)="submit()" class="m3-form-surface">
+  <h2 class="form-title">Crear Trofeo</h2>
+
+  <div class="m3-field">
+    <input id="t-name" [formField]="trophyForm.name" placeholder=" " />
+    <label for="t-name">Nombre del Trofeo</label>
+    @if (trophyForm.name().touched() && trophyForm.name().invalid()) {
+      <div class="error-msg">
+        @for (error of trophyForm.name().errors(); track error) {
+          <span>{{ error.message }}</span>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="m3-field">
+    <input id="t-desc" [formField]="trophyForm.description" placeholder=" " />
+    <label for="t-desc">Descripción (Opcional)</label>
+  </div>
+
+  <div class="m3-field is-select">
+    <select id="t-icon" [formField]="trophyForm.icon">
+      <option value="emoji_events">emoji_events (Trofeo)</option>
+      <option value="local_fire_department">local_fire_department (Fuego)</option>
+      <option value="military_tech">military_tech (Medalla)</option>
+      <option value="workspace_premium">workspace_premium (Premio)</option>
+      <option value="bolt">bolt (Rayo)</option>
+    </select>
+    <label for="t-icon">Ícono</label>
+  </div>
+
+  <div class="m3-field is-select">
+    <select id="t-habit" [formField]="trophyForm.targetHabitId">
+      <option value="">Vincular a un hábito...</option>
+      @for (habit of habits(); track habit.id) {
+        <option [value]="habit.id">{{ habit.name }}</option>
+      }
+    </select>
+    <label for="t-habit">Hábito Objetivo</label>
+    @if (trophyForm.targetHabitId().touched() && trophyForm.targetHabitId().invalid()) {
+      <div class="error-msg">
+        @for (error of trophyForm.targetHabitId().errors(); track error) {
+          <span>{{ error.message }}</span>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="m3-field">
+    <input type="number" id="t-target" [formField]="trophyForm.targetValue" placeholder=" " />
+    <label for="t-target">Días de Racha Requeridos</label>
+    @if (trophyForm.targetValue().touched() && trophyForm.targetValue().invalid()) {
+      <div class="error-msg">
+        @for (error of trophyForm.targetValue().errors(); track error) {
+          <span>{{ error.message }}</span>
+        }
+      </div>
+    }
+  </div>
+
+  <button
+    type="submit"
+    class="m3-btn-submit"
+    [disabled]="trophyForm().invalid() || isSubmitting()"
+  >
+    {{ isSubmitting() ? 'Creando...' : 'Crear Trofeo' }}
+  </button>
+</form>

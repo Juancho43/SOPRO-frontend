@@ -1,1 +1,31 @@
-<p>habits-view works!</p>
+<div class="habits-container">
+  <div class="action-header">
+    <button class="create-btn" (click)="openCreateHabitModal()">
+      <span class="material-symbols-outlined">add</span>
+      <span>Crear Nuevo Hábito</span>
+    </button>
+  </div>
+
+  @if (loading()) {
+    <div class="state-container">
+      <div class="spinner"></div>
+      <p>Cargando arsenal de hábitos...</p>
+    </div>
+  } @else if (habits().length === 0) {
+    <div class="state-container empty-state">
+      <span class="material-symbols-outlined empty-icon">assignment_late</span>
+      <p>No tienes hábitos registrados aún.</p>
+      <span>Comienza forjando tu primer hábito con el botón superior.</span>
+    </div>
+  } @else {
+    <div class="habits-list">
+      @for (habit of habits(); track habit.id) {
+        <app-habit-card 
+          [habit]="habit" 
+          [historyDates]="histories()[habit.id] || []"
+          [loading]="checkingInId() === habit.id"
+          (checkIn)="onHabitCheckIn($event)" />
+      }
+    </div>
+  }
+</div>

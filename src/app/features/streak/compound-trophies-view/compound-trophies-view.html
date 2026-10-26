@@ -1,1 +1,29 @@
-<p>compound-trophies-view works!</p>
+<div class="compound-container">
+  <div class="action-header">
+    <button class="create-btn" (click)="openCreateCompoundModal()">
+      <span class="material-symbols-outlined">add</span>
+      <span>Crear Trofeo de Sinergia</span>
+    </button>
+  </div>
+
+  @if (loading()) {
+    <div class="state-container">
+      <div class="spinner"></div>
+      <p>Cargando trofeos de sinergia...</p>
+    </div>
+  } @else if (synergies().length === 0) {
+    <div class="state-container empty-state">
+      <span class="material-symbols-outlined empty-icon">workspace_premium</span>
+      <p>Aún no tienes trofeos de sinergia.</p>
+      <span>Combina dos o más hábitos diarios para desbloquear recompensas épicas.</span>
+    </div>
+  } @else {
+    <div class="synergies-list">
+      @for (syn of synergies(); track syn.id) {
+        <app-synergy-trophy-card 
+          [trophy]="syn" 
+          [status]="synergyStatuses()[syn.id] || null" />
+      }
+    </div>
+  }
+</div>

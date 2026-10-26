@@ -1,0 +1,89 @@
+.compound-container {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.action-header {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.create-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 12px;
+  background: rgba(139, 92, 246, 0.12);
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  color: #c4b5fd;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+
+  &:hover {
+    background: rgba(139, 92, 246, 0.22);
+    border-color: #a78bfa;
+    color: #ffffff;
+    box-shadow: 0 0 16px rgba(139, 92, 246, 0.25);
+  }
+
+  .material-symbols-outlined {
+    font-size: 20px;
+  }
+}
+
+.synergies-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.state-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 16px;
+  color: #9ca3af;
+  text-align: center;
+  gap: 12px;
+
+  p {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #e5e7eb;
+  }
+
+  span {
+    font-size: 0.85rem;
+    color: #6b7280;
+  }
+
+  .empty-icon {
+    font-size: 48px;
+    color: #4b5563;
+  }
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(139, 92, 246, 0.2);
+  border-top-color: #8b5cf6;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

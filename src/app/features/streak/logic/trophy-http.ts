@@ -9,7 +9,7 @@ import { Trophy, ShowcaseTrophy, SynergyStatus } from './Trophy';
 })
 export class TrophyHTTP {
 private http = inject(HttpClient);
-  private apiUrl = `${environment.apiUrl}/api`;
+  private apiUrl = `${environment.apiUrl}`;
 
   createTrophy(command: Partial<Trophy>): Observable<Trophy> {
     return this.http.post<Trophy>(`${this.apiUrl}/trophies`, command);

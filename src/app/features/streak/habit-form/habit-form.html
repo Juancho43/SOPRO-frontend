@@ -1,0 +1,41 @@
+<form (ngSubmit)="submit()" class="m3-form-surface">
+  <h2 class="form-title">Forjar Hábito</h2>
+
+  <div class="m3-field">
+    <input id="h-name" [formField]="habitForm.name" placeholder=" " />
+    <label for="h-name">Nombre del Hábito</label>
+    @if (habitForm.name().touched() && habitForm.name().invalid()) {
+      <div class="error-msg">
+        @for (error of habitForm.name().errors(); track error) {
+          <span>{{ error.message }}</span>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="m3-field is-select">
+    <select id="h-freq" [formField]="habitForm.frequency">
+      <option value="daily">Diario</option>
+      <option value="weekly">Semanal</option>
+    </select>
+    <label for="h-freq">Frecuencia</label>
+  </div>
+
+  <div class="m3-field is-select">
+    <select id="h-domain" [formField]="habitForm.domainId">
+      <option value="">Selecciona un Dominio (Opcional)...</option>
+      @for (domain of domains(); track domain.id) {
+        <option [value]="domain.id">{{ domain.name }}</option>
+      }
+    </select>
+    <label for="h-domain">Dominio de Excelencia (Opcional)</label>
+  </div>
+
+  <button
+    type="submit"
+    class="m3-btn-submit"
+    [disabled]="habitForm().invalid() || isSubmitting()"
+  >
+    {{ isSubmitting() ? 'Activando...' : 'Activar Hábito' }}
+  </button>
+</form>

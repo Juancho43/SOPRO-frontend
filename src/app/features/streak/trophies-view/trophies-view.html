@@ -1,1 +1,33 @@
-<p>trophies-view works!</p>
+<div class="trophies-container">
+  <div class="action-header">
+    <button class="create-btn" (click)="openCreateTrophyModal()">
+      <span class="material-symbols-outlined">add</span>
+      <span>Crear Trofeo</span>
+    </button>
+  </div>
+
+  <div class="section-title">
+    <h2>Vitrina de Trofeos</h2>
+  </div>
+
+  @if (loading()) {
+    <div class="state-container">
+      <div class="spinner"></div>
+      <p>Cargando vitrina de logros...</p>
+    </div>
+  } @else if (trophies().length === 0) {
+    <div class="state-container empty-state">
+      <span class="material-symbols-outlined empty-icon">emoji_events</span>
+      <p>Aún no tienes trofeos configurados.</p>
+      <span>Diseña tu primer trofeo para recompensar tu disciplina.</span>
+    </div>
+  } @else {
+    <div class="trophies-grid">
+      @for (trophy of trophies(); track trophy.id) {
+        <app-trophy-card 
+          [trophy]="trophy" 
+          [currentStreak]="currentStreaks()[trophy.id] || 0" />
+      }
+    </div>
+  }
+</div>

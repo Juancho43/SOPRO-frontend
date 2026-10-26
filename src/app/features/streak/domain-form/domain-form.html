@@ -1,0 +1,33 @@
+<form (ngSubmit)="submit()" class="m3-form-surface">
+  <h2 class="form-title">Nuevo Dominio</h2>
+
+  <div class="m3-field">
+    <input id="d-name" [formField]="domainForm.name" placeholder=" " />
+    <label for="d-name">Nombre del Dominio (ej. Finanzas)</label>
+    @if (domainForm.name().touched() && domainForm.name().invalid()) {
+      <div class="error-msg">
+        @for (error of domainForm.name().errors(); track error) {
+          <span>{{ error.message }}</span>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="m3-field">
+    <input
+      type="color"
+      id="d-color"
+      [formField]="domainForm.colorHex"
+      style="padding: 0; cursor: pointer; height: 56px;"
+    />
+    <label for="d-color" style="top: -10px; left: 12px; font-size: 13px;">Color del Dominio</label>
+  </div>
+
+  <button
+    type="submit"
+    class="m3-btn-submit"
+    [disabled]="domainForm().invalid() || isSubmitting()"
+  >
+    {{ isSubmitting() ? 'Creando...' : 'Crear Dominio' }}
+  </button>
+</form>

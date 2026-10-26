@@ -1,1 +1,61 @@
-<p>domains-view works!</p>
+<div class="domains-container">
+  <!-- Balance Score Card -->
+  <div class="balance-card">
+    <div class="score-header">
+      <span class="score-label">Balance Score</span>
+      <h1 class="score-number">{{ averageScore() }}%</h1>
+    </div>
+
+    <div class="score-progress-bar">
+      <div class="score-fill" [style.width.%]="averageScore()"></div>
+    </div>
+
+    <div class="score-footer">
+      <span class="material-symbols-outlined check-icon">check_circle</span>
+      <span class="trend-text">+5% vs la semana pasada</span>
+    </div>
+  </div>
+
+  <!-- Chips de Categorías/Dominios -->
+  <div class="chips-scroll">
+    @for (dom of domains(); track dom.id) {
+      <button 
+        class="domain-chip" 
+        [class.selected]="selectedDomainId() === dom.id"
+        (click)="toggleDomainSelection(dom.id)">
+        <span class="chip-color-dot" [style.background]="dom.colorHex"></span>
+        <span class="chip-name">{{ dom.name }}</span>
+      </button>
+    }
+  </div>
+
+  <!-- Panel de Excelencia (Radar Chart) -->
+  <div class="radar-card">
+    <h3 class="panel-title">Panel de Excelencia</h3>
+
+    @if (loading()) {
+      <div class="state-container">
+        <div class="spinner"></div>
+        <p>Calculando equilibrio semanal...</p>
+      </div>
+    } @else if (radarAxes().length === 0) {
+      <div class="state-container empty-state">
+        <span class="material-symbols-outlined empty-icon">radar</span>
+        <p>No hay dominios activos suficientes.</p>
+        <span>Crea dominios y asigna hábitos para medir tu equilibrio.</span>
+      </div>
+    } @else {
+      <app-radar-chart [axes]="radarAxes()" />
+
+      <!-- Leyenda de colores -->
+      <div class="radar-legend">
+        @for (axis of radarAxes(); track axis.label) {
+          <div class="legend-item">
+            <span class="legend-dot" [style.background]="axis.color"></span>
+            <span class="legend-label">{{ axis.label }}</span>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

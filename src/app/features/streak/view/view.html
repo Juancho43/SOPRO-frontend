@@ -7,29 +7,24 @@
         <mat-tab label="Sinergias"></mat-tab>
       </mat-tab-group>
     </nav>
-
-    <!-- Contenedor principal de vistas -->
-    <main class="content-container pb-20"> <!-- pb-20 para respetar la bottom navbar -->
-      <router-outlet/>
-    </main>
-
-<!-- Contenedor del FAB Menu Dinámico -->
-<div class="m3-fab-container">
-  
-  <!-- Opciones secundarias (Se despliegan hacia arriba) -->
-  <div class="m3-fab-actions" [class.is-open]="isFabMenuOpen()">
     
-    <button class="m3-mini-fab" (click)="ejecutarAccion('habito')">
-      <span class="m3-fab-label">Nuevo Hábito</span>
-      <div class="icon-wrapper">
-        <span class="material-symbols-outlined">task_alt</span>
-      </div>
-    </button>
+    <main class="content-container pb-20">  
+           <router-outlet />
+    </main>
+<div class="m3-fab-container">
 
+  <div class="m3-fab-actions" [class.is-open]="isFabMenuOpen()">
     <button class="m3-mini-fab" (click)="ejecutarAccion('dominio')">
       <span class="m3-fab-label">Nuevo Dominio</span>
       <div class="icon-wrapper">
         <span class="material-symbols-outlined">category</span>
+      </div>
+    </button>
+
+    <button class="m3-mini-fab" (click)="ejecutarAccion('habito')">
+      <span class="m3-fab-label">Nuevo Hábito</span>
+      <div class="icon-wrapper">
+        <span class="material-symbols-outlined">task_alt</span>
       </div>
     </button>
 
@@ -39,10 +34,15 @@
         <span class="material-symbols-outlined">emoji_events</span>
       </div>
     </button>
-
+    
+    <button class="m3-mini-fab" (click)="ejecutarAccion('sinergia')">
+      <span class="m3-fab-label">Nuevo Sinergia</span>
+      <div class="icon-wrapper">
+        <span class="material-symbols-outlined">workspace_premium</span>
+      </div>
+    </button>
   </div>
 
-  <!-- FAB Principal (El disparador) -->
   <button class="m3-fab-primary" (click)="toggleFabMenu()">
     <span class="material-symbols-outlined fab-icon" [class.rotated]="isFabMenuOpen()">
       add

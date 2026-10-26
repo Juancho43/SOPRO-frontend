@@ -5,6 +5,12 @@ import { filter, map, startWith } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
+import { DialogHelper } from '../../../core/helpers/dialog-helper';
+import { DomainForm } from '../domain-form/domain-form';
+import { TrophyForm } from '../trophy-form/trophy-form';
+import { HabitForm } from '../habit-form/habit-form';
+import { CompoundTrophyForm } from '../compound-trophy-form/compound-trophy-form';
+import { ComponentType } from '@angular/cdk/portal';
 @Component({
   selector: 'app-view',
   imports: [RouterModule, MatTabsModule, MatButtonModule, MatIconModule, RouterOutlet],
@@ -12,15 +18,14 @@ import { MatTabsModule } from '@angular/material/tabs';
   styleUrl: './view.scss',
 })
 export class View {
-private router = inject(Router);
-  private route = inject(ActivatedRoute); // <-- Inyectamos la ruta activa
-
-  // 1. Corrección: Usar urlAfterRedirects y startWith para detectar la redirección inicial
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private helper = inject(DialogHelper);
   activeTabIndex: Signal<number> = toSignal(
     this.router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd),
       map((event) => this.getTabIndex(event.urlAfterRedirects)),
-      startWith(this.getTabIndex(this.router.url)) // Asegura que lea la ruta al recargar la página
+      startWith(this.getTabIndex(this.router.url)) 
     ),
     { initialValue: 0 }
   );
@@ -35,20 +40,16 @@ private router = inject(Router);
     }
   });
 
-  // Método auxiliar para evitar hardcodear la ruta padre
   private getTabIndex(url: string): number {
     if (url.includes('domains')) return 1;
     if (url.includes('trophies')) return 2;
     if (url.includes('compound-trophies')) return 3;
-    return 0; // 'habitos' por defecto
-  }
+    return 0;  
+   }
 
   onTabChange(event: any) {
     const childRoutes = ['habits', 'domains', 'trophies', 'compound-trophies'];
     
-    // 2. Corrección: Usar navegación RELATIVA. 
-    // De esta forma, sin importar si tu ruta padre es /streak, /steaks o /rachas, 
-    // Angular sabrá concatenar el hijo correctamente sin romper la redirección.
     this.router.navigate([childRoutes[event.index]], { relativeTo: this.route });
   }
 
@@ -61,9 +62,42 @@ private router = inject(Router);
     this.isFabMenuOpen.update(v => !v);
   }
 
-  // Ejemplo de acciones
-  public ejecutarAccion(tipo: string): void {
-    console.log('Ejecutando acción:', tipo);
-    this.isFabMenuOpen.set(false); // Cierra el menú tras elegir
+ejecutarAccion(tipo: string): void {
+    this.isFabMenuOpen.set(false);
+
+    switch (tipo) {
+      case 'dominio':
+        this.openForm(DomainForm);
+        break;
+      case 'habito':
+        this.openForm(HabitForm);
+        break;
+      case 'trofeo':
+        this.openForm(TrophyForm);
+        break;
+      case 'sinergia': 
+        this.openForm(CompoundTrophyForm);
+        break;
+      default:
+        console.warn('Acción de FAB no reconocida:', tipo);
+    }
+  }
+
+  /**
+   * Abstrae la lógica repetitiva de abrir un modal y escuchar su cierre.
+   * Acepta cualquier componente de Angular.
+   */
+  private openForm<T>(component: ComponentType<T>): void {
+    const dialogRef = this.helper.open(component, {
+      data: { mode: 'create' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log(`[${component.name}] Operación exitosa:`, result);
+      } else {
+        console.log(`[${component.name}] El usuario canceló la operación.`);
+      }
+    });
   }
 }

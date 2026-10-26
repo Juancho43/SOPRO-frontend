@@ -1,0 +1,54 @@
+<form (ngSubmit)="submit()" class="m3-form-surface">
+  <h2 class="form-title">Crear Sinergia (Trofeo Compuesto)</h2>
+
+  <div class="m3-field">
+    <input id="s-name" [formField]="trophyForm.name" placeholder=" " />
+    <label for="s-name">Nombre de la Sinergia</label>
+    @if (trophyForm.name().touched() && trophyForm.name().invalid()) {
+      <div class="error-msg">
+        @for (error of trophyForm.name().errors(); track error) {
+          <span>{{ error.message }}</span>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="m3-field is-select">
+    <select
+      id="s-habits"
+      multiple
+      (change)="onHabitsSelectionChange($event)"
+      style="height: 120px; padding-top: 16px;"
+    >
+      @for (habit of habits(); track habit.id) {
+        <option [value]="habit.id">{{ habit.name }}</option>
+      }
+    </select>
+    <label for="s-habits">Selecciona al menos 2 hábitos (Ctrl/Cmd para varios)</label>
+    @if (selectedHabitIds().length > 0 && selectedHabitIds().length < 2) {
+      <div class="error-msg">
+        <span>Una sinergia requiere vincular al menos 2 hábitos.</span>
+      </div>
+    }
+  </div>
+
+  <div class="m3-field">
+    <input type="number" id="s-target" [formField]="trophyForm.targetValue" placeholder=" " />
+    <label for="s-target">Racha Sincronizada (Días)</label>
+    @if (trophyForm.targetValue().touched() && trophyForm.targetValue().invalid()) {
+      <div class="error-msg">
+        @for (error of trophyForm.targetValue().errors(); track error) {
+          <span>{{ error.message }}</span>
+        }
+      </div>
+    }
+  </div>
+
+  <button
+    type="submit"
+    class="m3-btn-submit"
+    [disabled]="trophyForm().invalid() || selectedHabitIds().length < 2 || isSubmitting()"
+  >
+    {{ isSubmitting() ? 'Creando Sinergia...' : 'Crear Sinergia' }}
+  </button>
+</form>

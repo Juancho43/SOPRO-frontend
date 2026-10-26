@@ -9,7 +9,7 @@ import { Domain, DomainWithHabitCount, DomainEffortPoint } from './Domain';
 })
 export class DomainHTTP {
 private http = inject(HttpClient);
-  private apiUrl = `${environment.apiUrl}/api/domains`;
+  private apiUrl = `${environment.apiUrl}/domains`;
 
   createDomain(command: Partial<Domain>): Observable<Domain> {
     return this.http.post<Domain>(this.apiUrl, command);

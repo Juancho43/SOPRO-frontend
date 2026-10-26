@@ -9,7 +9,7 @@ import { Habit, HabitWithStreak, HabitCheckInResult } from './Habit';
 })
 export class HabitHTTP {
 private http = inject(HttpClient);
-  private apiUrl = `${environment.apiUrl}/api/habits`;
+  private apiUrl = `${environment.apiUrl}/habits`;
 
   createHabit(command: Partial<Habit>): Observable<Habit> {
     return this.http.post<Habit>(this.apiUrl, command);
