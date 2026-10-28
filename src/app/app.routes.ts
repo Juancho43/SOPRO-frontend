@@ -5,6 +5,11 @@ import { FocusLayout } from './core/focus-layout/focus-layout';
 import { MainLayout } from './core/main-layout/main-layout';
 
 export const routes: Routes = [
+{ 
+    path: '', 
+    redirectTo: 'login', 
+    pathMatch: 'full' 
+  },
     {
         path: '',
         component: FocusLayout,
@@ -51,12 +56,17 @@ export const routes: Routes = [
 
                 ]
             },
-        {
-    path: 'streaks',
-    // Lazy loading del grupo de rutas completo
-    loadChildren: () => 
-      import('./features/streak/streak.routes').then(m => m.STREAKS_ROUTES)
-  },
+            {
+                path: 'streaks',
+                loadChildren: () =>
+                    import('./features/streak/streak.routes').then(m => m.STREAKS_ROUTES)
+            },
+            {
+                path: 'challenges',
+                canActivate: [authGuard],
+                loadChildren: () =>
+                    import('./features/challenges/challenges.routes').then(m => m.CHALLENGES_ROUTES)
+            },
             {
                 path: 'finances',
                 canActivate: [authGuard],
@@ -69,9 +79,9 @@ export const routes: Routes = [
             },
         ]
     },
- 
-    {
-        path: '**',
-        redirectTo: '/home'
-    }
+
+{ 
+    path: '**', 
+    redirectTo: 'login' 
+  }
 ];

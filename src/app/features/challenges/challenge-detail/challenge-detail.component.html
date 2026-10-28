@@ -1,0 +1,107 @@
+<div class="challenge-detail-view">
+  <!-- Top Bar de Retorno -->
+  <header class="detail-header">
+    <button type="button" class="btn-back" (click)="goBack()" aria-label="Volver a retos">
+      <span class="material-symbols-outlined">arrow_back</span>
+    </button>
+    <h2 class="header-title">Detalle del Reto</h2>
+    <button type="button" class="btn-action" (click)="openEditChallenge()" aria-label="Editar">
+      <span class="material-symbols-outlined">edit</span>
+    </button>
+  </header>
+
+  @if (challenge(); as c) {
+    <!-- Hero Card del Reto -->
+    <section class="hero-card">
+      <div class="hero-top">
+        <span class="status-badge" [ngClass]="'status-' + c.status.toLowerCase()">
+          {{ c.status }}
+        </span>
+        <div class="countdown-tag" [class.urgent]="daysRemaining() <= 7">
+          <span class="material-symbols-outlined">timelapse</span>
+          <span>{{ daysRemaining() }} días restantes</span>
+        </div>
+      </div>
+
+      <h1 class="hero-title">{{ c.title }}</h1>
+      <p class="hero-desc">{{ c.description }}</p>
+
+      <div class="dates-range">
+        <span class="material-symbols-outlined">calendar_month</span>
+        <span>{{ c.startDate }} al {{ c.endDate }}</span>
+      </div>
+
+      <!-- Barra de Progreso General basada en Hitos -->
+      <div class="progress-box">
+        <div class="progress-labels">
+          <span>Avance de Hitos</span>
+          <span class="progress-val">{{ progress() }}% completado</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-bar" [style.width.%]="progress()"></div>
+        </div>
+      </div>
+
+      <!-- Recompensa Psicológica -->
+      <div class="reward-banner">
+        <span class="material-symbols-outlined trophy-icon">emoji_events</span>
+        <div class="reward-info">
+          <span class="reward-title">Recompensa Prometida</span>
+          <span class="reward-desc">{{ c.reward }}</span>
+        </div>
+      </div>
+
+      <!-- Acciones de Estado -->
+      <div class="status-actions">
+        @if (c.status === 'ACTIVE') {
+          <button type="button" class="btn-complete" (click)="changeStatus('COMPLETED')">
+            <span class="material-symbols-outlined">check</span>
+            Conquistar Reto
+          </button>
+          <button type="button" class="btn-archive" (click)="changeStatus('ARCHIVED')">
+            Archivar
+          </button>
+        } @else {
+          <button type="button" class="btn-reactivate" (click)="changeStatus('ACTIVE')">
+            Reactivar Reto
+          </button>
+        }
+      </div>
+    </section>
+
+    <!-- Sección de Hitos Intermedios -->
+    <section class="milestones-section">
+      <div class="section-header">
+        <div class="title-wrap">
+          <h3 class="section-title">Hitos y Deadlines</h3>
+          <span class="count-badge">{{ milestones().length }}</span>
+        </div>
+        <button type="button" class="btn-add-milestone" (click)="openAddMilestone()">
+          <span class="material-symbols-outlined">add</span>
+          Nuevo Hito
+        </button>
+      </div>
+
+      <div class="milestones-list">
+        @for (milestone of milestones(); track milestone.id) {
+          <app-milestone-item
+            [milestone]="milestone"
+            (toggle)="onToggleMilestone($event)"
+            (remove)="onDeleteMilestone($event)"
+          />
+        } @empty {
+          <div class="empty-state">
+            <span class="material-symbols-outlined empty-icon">flag</span>
+            <p class="empty-text">Aún no hay hitos intermedios.</p>
+            <p class="empty-sub">Divide este reto para mantener la tracción constante.</p>
+          </div>
+        }
+      </div>
+    </section>
+  } @else {
+    <div class="loading-state">
+      <span class="material-symbols-outlined spin-icon">hourglass_empty</span>
+      <p>Cargando información del reto...</p>
+    </div>
+  }
+</div>

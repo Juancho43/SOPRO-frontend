@@ -1,0 +1,111 @@
+<form (ngSubmit)="submit()" class="m3-form-surface">
+  <div class="header-row">
+    <h2 class="form-title">
+      {{ isEdit ? 'Editar Reto Estratégico' : 'Nuevo Reto Estratégico' }}
+    </h2>
+    <button type="button" class="btn-icon" (click)="close()" aria-label="Cerrar">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+  </div>
+
+  <!-- Título -->
+  <div class="m3-field">
+    <input
+      id="c-title"
+      type="text"
+      [formField]="challengeForm.title"
+      placeholder=" "
+    />
+    <label for="c-title">Título del Reto (ej. Sprint Go 90D)</label>
+    @if (challengeForm.title().touched() && challengeForm.title().invalid()) {
+      <div class="error-msg">
+        @for (error of challengeForm.title().errors(); track error) {
+          <span>{{ error.message }}</span>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- Descripción -->
+  <div class="m3-field">
+    <textarea
+      id="c-desc"
+      [formField]="challengeForm.description"
+      placeholder=" "
+      rows="3"
+    ></textarea>
+    <label for="c-desc">Objetivo medible y detallado</label>
+    @if (challengeForm.description().touched() && challengeForm.description().invalid()) {
+      <div class="error-msg">
+        @for (error of challengeForm.description().errors(); track error) {
+          <span>{{ error.message }}</span>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- Fechas y Presets rápidos -->
+  <div class="preset-container">
+    <span class="preset-label">Duración sugerida:</span>
+    <div class="chips-group">
+      <button type="button" class="m3-chip" (click)="applyPreset(30)">30 Días</button>
+      <button type="button" class="m3-chip" (click)="applyPreset(60)">60 Días</button>
+      <button type="button" class="m3-chip highlighted" (click)="applyPreset(90)">90 Días</button>
+    </div>
+  </div>
+
+  <div class="dates-row">
+    <div class="m3-field">
+      <input
+        id="c-start"
+        type="date"
+        [formField]="challengeForm.startDate"
+      />
+      <label for="c-start">Inicio</label>
+    </div>
+
+    <div class="m3-field">
+      <input
+        id="c-end"
+        type="date"
+        [formField]="challengeForm.endDate"
+      />
+      <label for="c-end">Fin</label>
+    </div>
+  </div>
+  @if (isDateRangeInvalid()) {
+    <p class="error-msg">La fecha de fin debe ser posterior a la fecha de inicio.</p>
+  }
+
+  <!-- Recompensa Psicológica -->
+  <div class="m3-field reward-field">
+    <input
+      id="c-reward"
+      type="text"
+      [formField]="challengeForm.reward"
+      placeholder=" "
+    />
+    <label for="c-reward">
+      <span class="material-symbols-outlined field-icon">emoji_events</span>
+      Recompensa al conquistar (ej: Monitor Ultrawide)
+    </label>
+    @if (challengeForm.reward().touched() && challengeForm.reward().invalid()) {
+      <div class="error-msg">
+        @for (error of challengeForm.reward().errors(); track error) {
+          <span>{{ error.message }}</span>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="actions-row">
+    <button type="button" class="m3-btn-cancel" (click)="close()">Cancelar</button>
+    <button
+      type="submit"
+      class="m3-btn-submit"
+      [disabled]="isSubmitDisabled()"
+    >
+      {{ isSubmitting() ? 'Guardando...' : (isEdit ? 'Actualizar Reto' : 'Crear Reto') }}
+    </button>
+  </div>
+</form>

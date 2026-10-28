@@ -1,0 +1,68 @@
+<div class="challenges-view-container">
+  <!-- Cabecera de la Feature -->
+  <header class="challenges-header">
+    <div class="header-text">
+      <h1 class="page-title">Retos y Sprints</h1>
+      <p class="page-subtitle">Conquista tus objetivos a mediano plazo</p>
+    </div>
+
+    <button type="button" class="btn-create-challenge" (click)="openCreateModal()">
+      <span class="material-symbols-outlined">add</span>
+      <span>Nuevo Reto</span>
+    </button>
+  </header>
+
+  <!-- Filtros tipo Pills/Chips Material 3 -->
+  <div class="filters-bar">
+    <button
+      type="button"
+      class="filter-chip"
+      [class.active]="activeFilter() === 'ACTIVE'"
+      (click)="setFilter('ACTIVE')"
+    >
+      Activos
+    </button>
+    <button
+      type="button"
+      class="filter-chip"
+      [class.active]="activeFilter() === 'COMPLETED'"
+      (click)="setFilter('COMPLETED')"
+    >
+      Conquistados
+    </button>
+    <button
+      type="button"
+      class="filter-chip"
+      [class.active]="activeFilter() === 'ALL'"
+      (click)="setFilter('ALL')"
+    >
+      Todos
+    </button>
+  </div>
+
+  <!-- Lista de Retos -->
+  <div class="challenges-list">
+    @if (isLoading()) {
+      <div class="loading-state">
+        <span class="material-symbols-outlined spin-icon">hourglass_empty</span>
+        <p>Cargando retos estratégicos...</p>
+      </div>
+    } @else {
+      @for (challenge of challenges(); track challenge.id) {
+        <app-challenge-card
+          [challenge]="challenge"
+          (cardClick)="goToDetail($event)"
+        />
+      } @empty {
+        <div class="empty-state">
+          <span class="material-symbols-outlined empty-icon">emoji_events</span>
+          <h3>Sin retos en este filtro</h3>
+          <p>Define un sprint de 30, 60 o 90 días y enfócate en tu crecimiento.</p>
+          <button type="button" class="btn-empty-action" (click)="openCreateModal()">
+            Crear mi primer reto
+          </button>
+        </div>
+      }
+    }
+  </div>
+</div>

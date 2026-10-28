@@ -1,0 +1,47 @@
+<div
+  class="m3-milestone-item"
+  [class.is-completed]="milestone.isCompleted"
+  [ngClass]="'urgency-' + urgencyClass"
+>
+  <button
+    type="button"
+    class="checkbox-btn"
+    (click)="onToggle($event)"
+    [attr.aria-label]="milestone.isCompleted ? 'Desmarcar hito' : 'Marcar hito como completado'"
+  >
+    <span class="material-symbols-outlined check-icon">
+      {{ milestone.isCompleted ? 'check_circle' : 'radio_button_unchecked' }}
+    </span>
+  </button>
+
+  <div class="content">
+    <span class="milestone-title">{{ milestone.title }}</span>
+    <div class="meta-row">
+      <span class="due-date">
+        <span class="material-symbols-outlined icon">event</span>
+        {{ milestone.dueDate }}
+      </span>
+
+      @if (!milestone.isCompleted) {
+        @if (urgencyClass === 'overdue') {
+          <span class="alert-badge overdue">¡Vencido!</span>
+        } @else if (urgencyClass === 'urgent') {
+          <span class="alert-badge urgent">⏳ Queda 1 día o menos</span>
+        } @else if (urgencyClass === 'warning') {
+          <span class="alert-badge warning">⏳ Quedan {{ daysRemaining }} días</span>
+        }
+      } @else {
+        <span class="alert-badge completed">Completado</span>
+      }
+    </div>
+  </div>
+
+  <button
+    type="button"
+    class="delete-btn"
+    (click)="onDelete($event)"
+    aria-label="Eliminar hito"
+  >
+    <span class="material-symbols-outlined">delete</span>
+  </button>
+</div>

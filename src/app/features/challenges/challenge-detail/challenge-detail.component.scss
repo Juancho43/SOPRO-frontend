@@ -1,0 +1,311 @@
+.challenge-detail-view {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .btn-back,
+  .btn-action {
+    background: transparent;
+    border: none;
+    color: var(--md-sys-color-on-surface);
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background-color: var(--md-sys-color-surface-container-high);
+    }
+  }
+
+  .header-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+    color: var(--md-sys-color-on-surface);
+  }
+}
+
+.hero-card {
+  background-color: var(--md-sys-color-surface-container-low);
+  border-radius: 24px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border: 1px solid var(--md-sys-color-outline-variant);
+
+  .hero-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .status-badge {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 8px;
+
+      &.status-active {
+        background-color: var(--md-sys-color-primary-container);
+        color: var(--md-sys-color-on-primary-container);
+      }
+
+      &.status-completed {
+        background-color: rgb(40, 167, 69);
+        color: white;
+      }
+
+      &.status-archived {
+        background-color: var(--md-sys-color-surface-container-highest);
+        color: var(--md-sys-color-on-surface-variant);
+      }
+    }
+
+    .countdown-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--md-sys-color-primary);
+
+      &.urgent {
+        color: var(--md-sys-color-error);
+      }
+    }
+  }
+
+  .hero-title {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--md-sys-color-on-surface);
+    line-height: 1.25;
+  }
+
+  .hero-desc {
+    margin: 0;
+    font-size: 14px;
+    color: var(--md-sys-color-on-surface-variant);
+    line-height: 1.45;
+  }
+
+  .dates-range {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--md-sys-color-on-surface-variant);
+  }
+
+  .progress-box {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    .progress-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--md-sys-color-on-surface-variant);
+
+      .progress-val {
+        font-weight: 600;
+        color: var(--md-sys-color-primary);
+      }
+    }
+
+    .progress-track {
+      height: 8px;
+      background-color: var(--md-sys-color-surface-container-highest);
+      border-radius: 4px;
+      overflow: hidden;
+
+      .progress-bar {
+        height: 100%;
+        background-color: var(--md-sys-color-primary);
+        border-radius: 4px;
+        transition: width 0.3s ease;
+      }
+    }
+  }
+
+  .reward-banner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: var(--md-sys-color-tertiary-container);
+    color: var(--md-sys-color-on-tertiary-container);
+    padding: 14px 16px;
+    border-radius: 16px;
+
+    .trophy-icon {
+      font-size: 28px;
+    }
+
+    .reward-info {
+      display: flex;
+      flex-direction: column;
+
+      .reward-title {
+        font-size: 11px;
+        text-transform: uppercase;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+      }
+
+      .reward-desc {
+        font-size: 14px;
+        font-weight: 600;
+      }
+    }
+  }
+
+  .status-actions {
+    display: flex;
+    gap: 10px;
+
+    button {
+      height: 40px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: none;
+      padding: 0 16px;
+    }
+
+    .btn-complete {
+      background-color: var(--md-sys-color-primary);
+      color: var(--md-sys-color-on-primary);
+      flex: 1;
+    }
+
+    .btn-archive,
+    .btn-reactivate {
+      background-color: var(--md-sys-color-surface-container-high);
+      color: var(--md-sys-color-on-surface);
+    }
+  }
+}
+
+.milestones-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .section-title {
+        margin: 0;
+        font-size: 17px;
+        font-weight: 600;
+        color: var(--md-sys-color-on-surface);
+      }
+
+      .count-badge {
+        font-size: 12px;
+        font-weight: 700;
+        background-color: var(--md-sys-color-surface-container-highest);
+        color: var(--md-sys-color-on-surface-variant);
+        padding: 2px 8px;
+        border-radius: 10px;
+      }
+    }
+
+    .btn-add-milestone {
+      background-color: var(--md-sys-color-primary-container);
+      color: var(--md-sys-color-on-primary-container);
+      border: none;
+      border-radius: 18px;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: background-color 0.2s;
+
+      &:hover {
+        background-color: var(--md-sys-color-primary);
+        color: var(--md-sys-color-on-primary);
+      }
+    }
+  }
+
+  .milestones-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 16px;
+    background-color: var(--md-sys-color-surface-container-low);
+    border-radius: 16px;
+    text-align: center;
+
+    .empty-icon {
+      font-size: 36px;
+      color: var(--md-sys-color-outline);
+      margin-bottom: 8px;
+    }
+
+    .empty-text {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--md-sys-color-on-surface);
+    }
+
+    .empty-sub {
+      margin: 4px 0 0 0;
+      font-size: 13px;
+      color: var(--md-sys-color-on-surface-variant);
+    }
+  }
+}
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+  color: var(--md-sys-color-on-surface-variant);
+
+  .spin-icon {
+    font-size: 32px;
+    margin-bottom: 8px;
+  }
+}

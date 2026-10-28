@@ -1,0 +1,46 @@
+<div class="m3-challenge-card" (click)="onClick()">
+  <div class="card-header">
+    <div class="title-container">
+      <h3 class="challenge-title">{{ challenge.title }}</h3>
+      <span class="m3-badge" [ngClass]="'status-' + challenge.status.toLowerCase()">
+        {{ statusLabel }}
+      </span>
+    </div>
+    
+    <div class="countdown-pill" [class.urgent]="daysRemaining <= 7 && challenge.status === 'ACTIVE'">
+      <span class="material-symbols-outlined icon">timelapse</span>
+      @if (daysRemaining > 0) {
+        <span>{{ daysRemaining }} días restantes</span>
+      } @else if (daysRemaining === 0) {
+        <span>¡Termina hoy!</span>
+      } @else {
+        <span>Finalizado</span>
+      }
+    </div>
+  </div>
+
+  <p class="challenge-desc">{{ challenge.description }}</p>
+
+  <!-- Barra de progreso temporal -->
+  <div class="progress-section">
+    <div class="progress-info">
+      <span>Tiempo transcurrido</span>
+      <span class="percent">{{ progressPercentage }}%</span>
+    </div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" [style.width.%]="progressPercentage"></div>
+    </div>
+  </div>
+
+  <!-- Recompensa destacada -->
+  <div class="card-footer">
+    <div class="reward-box">
+      <span class="material-symbols-outlined trophy-icon">emoji_events</span>
+      <div class="reward-content">
+        <span class="reward-label">Recompensa final:</span>
+        <span class="reward-value">{{ challenge.reward }}</span>
+      </div>
+    </div>
+    <span class="material-symbols-outlined arrow-icon">chevron_right</span>
+  </div>
+</div>

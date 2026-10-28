@@ -1,0 +1,39 @@
+<div class="m3-split-button-group" [ngClass]="['variant-' + variant, disabled ? 'is-disabled' : '']">
+  <!-- Botón de acción principal (Leading segment) -->
+  <button
+    type="button"
+    class="split-btn split-btn-primary"
+    [disabled]="disabled"
+    (click)="onPrimaryClick($event)"
+  >
+    @if (primaryIcon) {
+      <span class="material-symbols-outlined leading-icon">{{ primaryIcon }}</span>
+    }
+    <span class="label-text">{{ primaryLabel }}</span>
+  </button>
+
+  <!-- Divisor visual Material 3 -->
+  <div class="split-divider"></div>
+
+  <!-- Botón selector desplegable (Trailing segment) -->
+  <button
+    type="button"
+    class="split-btn split-btn-trailing"
+    [disabled]="disabled"
+    [matMenuTriggerFor]="splitMenu"
+    aria-label="Más opciones"
+  >
+    <span class="material-symbols-outlined trailing-icon">arrow_drop_down</span>
+  </button>
+
+  <mat-menu #splitMenu="matMenu" class="m3-split-menu">
+    @for (option of options; track option.id) {
+      <button mat-menu-item (click)="onSelectOption(option)">
+        @if (option.icon) {
+          <span class="material-symbols-outlined menu-icon">{{ option.icon }}</span>
+        }
+        <span>{{ option.label }}</span>
+      </button>
+    }
+  </mat-menu>
+</div>

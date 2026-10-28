@@ -6,6 +6,7 @@ import {getAuth, provideAuth} from "@angular/fire/auth";
 import { routes } from './app.routes';
 import { provideServiceWorker } from '@angular/service-worker';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { authInterceptor } from './features/login/logic/auth.interceptor';
 import { authErrorInterceptor } from './features/login/logic/auth-error.interceptor';
 
 export const appConfig: ApplicationConfig = {
@@ -18,8 +19,8 @@ export const appConfig: ApplicationConfig = {
     }),
     provideHttpClient(
       withInterceptors([
-        // authInterceptor, (si tienes uno para enviar el Authorization: Bearer)
-        authErrorInterceptor
+        authInterceptor,
+        authErrorInterceptor,
       ])),
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth())

@@ -1,0 +1,117 @@
+@use '../../../core/styles/forms.scss';
+
+.header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .btn-icon {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--md-sys-color-on-surface-variant);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    transition: background 0.2s;
+
+    &:hover {
+      background: var(--md-sys-color-surface-container-highest);
+    }
+  }
+}
+
+.preset-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .preset-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--md-sys-color-on-surface-variant);
+  }
+
+  .chips-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+
+    .m3-chip {
+      background-color: var(--md-sys-color-surface-container-high);
+      color: var(--md-sys-color-on-surface-variant);
+      border: 1px solid var(--md-sys-color-outline-variant);
+      padding: 6px 14px;
+      border-radius: 16px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+
+      &:hover {
+        background-color: var(--md-sys-color-secondary-container);
+        color: var(--md-sys-color-on-secondary-container);
+      }
+
+      &.highlighted {
+        background-color: var(--md-sys-color-primary-container);
+        color: var(--md-sys-color-on-primary-container);
+        border-color: var(--md-sys-color-primary);
+      }
+    }
+  }
+}
+
+.dates-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.error-msg {
+  color: var(--md-sys-color-error);
+  font-size: 12px;
+  margin: -12px 0 0 4px;
+}
+
+.reward-field {
+  label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    .field-icon {
+      font-size: 16px;
+      color: var(--md-sys-color-primary);
+    }
+  }
+}
+
+.actions-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+
+  .m3-btn-cancel {
+    background: transparent;
+    border: none;
+    color: var(--md-sys-color-primary);
+    font-size: 15px;
+    font-weight: 600;
+    padding: 0 16px;
+    border-radius: 20px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--md-sys-color-surface-container-high);
+    }
+  }
+
+  .m3-btn-submit {
+    margin-top: 0;
+  }
+}

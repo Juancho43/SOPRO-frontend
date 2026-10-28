@@ -1,1 +1,26 @@
-<p>view works!</p>
+<div class="menu-container">
+  <section class="menu-section">
+    <h3 class="section-title">Navegación Rápida</h3>
+
+    <!-- Tarjeta M3 para Retos Estratégicos -->
+    <div class="menu-card">
+      <div class="card-icon-wrapper">
+        <span class="material-symbols-outlined">flag</span>
+      </div>
+      <div class="card-info">
+        <span class="card-title">Retos y Sprints</span>
+        <span class="card-desc">Conquista metas a 30, 60 o 90 días e hitos intermedios</span>
+      </div>
+
+      <!-- M3 Split Button según requerimiento -->
+      <app-m3-split-button
+        primaryLabel="Ir a Retos"
+        primaryIcon="flag"
+        variant="filled"
+        [options]="challengeActions"
+        (primaryClick)="navigateToChallenges()"
+        (optionSelected)="onSplitActionSelected($event)"
+      />
+    </div>
+  </section>
+</div>

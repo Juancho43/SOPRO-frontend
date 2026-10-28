@@ -1,0 +1,62 @@
+@use '../../../core/styles/forms.scss';
+
+.header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .btn-icon {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--md-sys-color-on-surface-variant);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+
+    &:hover {
+      background: var(--md-sys-color-surface-container-highest);
+    }
+  }
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--md-sys-color-on-surface-variant);
+  margin: -12px 0 8px 0;
+}
+
+.error-msg {
+  color: var(--md-sys-color-error);
+  font-size: 12px;
+  margin: -12px 0 0 4px;
+}
+
+.actions-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+
+  .m3-btn-cancel {
+    background: transparent;
+    border: none;
+    color: var(--md-sys-color-primary);
+    font-size: 15px;
+    font-weight: 600;
+    padding: 0 16px;
+    border-radius: 20px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--md-sys-color-surface-container-high);
+    }
+  }
+
+  .m3-btn-submit {
+    margin-top: 0;
+  }
+}

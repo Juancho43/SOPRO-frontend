@@ -1,0 +1,59 @@
+<form (ngSubmit)="submit()" class="m3-form-surface">
+  <div class="header-row">
+    <h2 class="form-title">Añadir Hito Intermedio</h2>
+    <button type="button" class="btn-icon" (click)="close()" aria-label="Cerrar">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+  </div>
+
+  <p class="subtitle">
+    Divide tu meta mayor en una victoria alcanzable con fecha límite fija.
+  </p>
+
+  <div class="m3-field">
+    <input
+      id="m-title"
+      type="text"
+      [formField]="milestoneForm.title"
+      placeholder=" "
+    />
+    <label for="m-title">Título del hito (ej. Capítulos 1 al 5)</label>
+    @if (milestoneForm.title().touched() && milestoneForm.title().invalid()) {
+      <div class="error-msg">
+        @for (error of milestoneForm.title().errors(); track error) {
+          <span>{{ error.message }}</span>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="m3-field">
+    <input
+      id="m-due"
+      type="date"
+      [formField]="milestoneForm.dueDate"
+    />
+    <label for="m-due">Fecha límite (Deadline)</label>
+    @if (milestoneForm.dueDate().touched() && milestoneForm.dueDate().invalid()) {
+      <div class="error-msg">
+        @for (error of milestoneForm.dueDate().errors(); track error) {
+          <span>{{ error.message }}</span>
+        }
+      </div>
+    }
+  </div>
+  @if (isDueDateOutOfRange()) {
+    <p class="error-msg">La fecha debe estar comprendida dentro del período del reto.</p>
+  }
+
+  <div class="actions-row">
+    <button type="button" class="m3-btn-cancel" (click)="close()">Cancelar</button>
+    <button
+      type="submit"
+      class="m3-btn-submit"
+      [disabled]="isSubmitDisabled()"
+    >
+      {{ isSubmitting() ? 'Guardando...' : 'Guardar Hito' }}
+    </button>
+  </div>
+</form>
