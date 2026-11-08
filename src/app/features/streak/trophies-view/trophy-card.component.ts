@@ -1,4 +1,4 @@
-import { Component, input, computed } from '@angular/core';
+import { Component, input, output, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ShowcaseTrophy } from '../logic/Trophy';
 
@@ -7,7 +7,16 @@ import { ShowcaseTrophy } from '../logic/Trophy';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="trophy-card" [class.unlocked]="trophy().unlocked" [class.locked]="!trophy().unlocked">
+    <div 
+      class="trophy-card" 
+      [class.unlocked]="trophy().unlocked" 
+      [class.locked]="!trophy().unlocked"
+      (click)="cardClick.emit(trophy())"
+      tabindex="0"
+      role="button"
+      (keydown.enter)="cardClick.emit(trophy())"
+      (keydown.space)="cardClick.emit(trophy())"
+    >
       <div class="top-indicator">
         <span *ngIf="!trophy().unlocked" class="material-symbols-outlined lock-icon">lock</span>
       </div>
@@ -57,7 +66,13 @@ import { ShowcaseTrophy } from '../logic/Trophy';
       position: relative;
       text-align: center;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-      transition: transform 0.2s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      }
     }
 
     .trophy-card.unlocked {
@@ -196,18 +211,20 @@ import { ShowcaseTrophy } from '../logic/Trophy';
 export class TrophyCardComponent {
   trophy = input.required<ShowcaseTrophy>();
   currentStreak = input<number>(0);
+  cardClick = output<ShowcaseTrophy>();
 
   trophyIcon = computed(() => {
     return this.trophy().icon || 'military_tech';
   });
 
   currentDays = computed(() => {
-    return Math.min(this.currentStreak(), this.trophy().targetValue);
+    const target = this.trophy().required_streak_days ?? this.trophy().targetValue ?? 0;
+    return Math.min(this.currentStreak(), target);
   });
 
   progressPercentage = computed(() => {
     if (this.trophy().unlocked) return 100;
-    const target = this.trophy().targetValue || 1;
+    const target = this.trophy().required_streak_days ?? this.trophy().targetValue ?? 1;
     return Math.min(Math.round((this.currentDays() / target) * 100), 100);
   });
 }

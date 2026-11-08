@@ -1,8 +1,10 @@
 import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
 import { DomainHTTP } from '../logic/domain-http';
 import { DomainWithHabitCount, DomainEffortPoint } from '../logic/Domain';
 import { RadarChartComponent, RadarAxis } from './radar-chart.component';
+import { DomainForm } from '../domain-form/domain-form';
 
 @Component({
   selector: 'app-domains-view',
@@ -13,6 +15,7 @@ import { RadarChartComponent, RadarAxis } from './radar-chart.component';
 })
 export class DomainsView implements OnInit {
   private domainHttp = inject(DomainHTTP);
+  private dialog = inject(MatDialog);
 
   domains = signal<DomainWithHabitCount[]>([]);
   radarMetrics = signal<DomainEffortPoint[]>([]);
@@ -37,18 +40,48 @@ export class DomainsView implements OnInit {
           error: (err) => {
             console.error('Error al cargar radar metrics:', err);
             this.loading.set(false);
-          }
+          },
         });
       },
       error: (err) => {
         console.error('Error al cargar dominios:', err);
         this.loading.set(false);
+      },
+    });
+  }
+
+  openCreateDomainModal() {
+    const dialogRef = this.dialog.open(DomainForm, {
+      panelClass: 'modal-transparente',
+      maxWidth: '92vw',
+      width: '380px',
+      data: { mode: 'create' },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.loadData();
       }
     });
   }
 
-  toggleDomainSelection(id: string) {
-    this.selectedDomainId.update((current) => (current === id ? null : id));
+  openEditDomainModal(dom: DomainWithHabitCount) {
+    this.selectedDomainId.set(dom.id);
+    const dialogRef = this.dialog.open(DomainForm, {
+      panelClass: 'modal-transparente',
+      maxWidth: '92vw',
+      width: '380px',
+      data: {
+        mode: 'edit',
+        domain: dom,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result?.deleted || result?.updated || result) {
+        this.loadData();
+      }
+    });
   }
 
   radarAxes = computed<RadarAxis[]>(() => {
@@ -71,7 +104,7 @@ export class DomainsView implements OnInit {
       return {
         label: d.name,
         value: score,
-        color: d.colorHex || '#ff9100'
+        color: d.colorHex || '#ff9100',
       };
     });
   });

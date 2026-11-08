@@ -22,7 +22,8 @@
       @for (syn of synergies(); track syn.id) {
         <app-synergy-trophy-card 
           [trophy]="syn" 
-          [status]="synergyStatuses()[syn.id] || null" />
+          [status]="synergyStatuses()[syn.id] || null"
+          (cardClick)="openSynergyDetail(syn)" />
       }
     </div>
   }

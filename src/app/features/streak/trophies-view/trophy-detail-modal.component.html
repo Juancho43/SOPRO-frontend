@@ -1,0 +1,128 @@
+<div class="trophy-modal-surface">
+  <div class="modal-header">
+    <div class="header-status">
+      @if (isUnlocked()) {
+        <span class="status-chip unlocked">
+          <span class="material-symbols-outlined chip-icon">check_circle</span>
+          <span>Desbloqueado</span>
+        </span>
+      } @else {
+        <span class="status-chip locked">
+          <span class="material-symbols-outlined chip-icon">lock</span>
+          <span>Bloqueado</span>
+        </span>
+      }
+    </div>
+
+    <button type="button" class="btn-close" (click)="close()" aria-label="Cerrar modal">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <!-- Ícono Ilustrativo Central -->
+    <div class="trophy-hero">
+      <div class="hero-halo" [class.glow]="isUnlocked()">
+        <span class="material-symbols-outlined hero-icon">{{ trophyIcon() }}</span>
+      </div>
+      <h2 class="hero-title">{{ trophy().name || trophy().title }}</h2>
+      @if (trophy().description) {
+        <p class="hero-desc">{{ trophy().description }}</p>
+      }
+    </div>
+
+    @if (loading()) {
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <span>Consultando detalles y progreso...</span>
+      </div>
+    } @else {
+      <!-- Progreso y Requisitos -->
+      <div class="details-section">
+        <h3 class="section-title">
+          <span class="material-symbols-outlined title-icon">rule</span>
+          <span>Requisitos y Progreso</span>
+        </h3>
+
+        @if (details()?.progress && details()!.progress.length > 0) {
+          <div class="progress-list">
+            @for (item of details()!.progress; track item.habit_id) {
+              <div class="progress-item" [class.is-met]="item.is_met">
+                <div class="item-header">
+                  <div class="habit-name-wrapper">
+                    <span class="material-symbols-outlined habit-icon">
+                      {{ item.is_met ? 'check' : 'local_fire_department' }}
+                    </span>
+                    <span class="habit-name">{{ item.habit_name }}</span>
+                  </div>
+                  <span class="streak-ratio">
+                    {{ item.current_streak }} / {{ item.required_streak_days }} días
+                  </span>
+                </div>
+
+                <div class="progress-track">
+                  <div 
+                    class="progress-fill" 
+                    [style.width.%]="(item.current_streak / item.required_streak_days) * 100 > 100 ? 100 : ((item.current_streak / item.required_streak_days) * 100)">
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        } @else {
+          <!-- Fallback con datos directos del trofeo si no hay lista múltiple -->
+          <div class="progress-item" [class.is-met]="isUnlocked()">
+            <div class="item-header">
+              <div class="habit-name-wrapper">
+                <span class="material-symbols-outlined habit-icon">
+                  {{ isUnlocked() ? 'check' : 'local_fire_department' }}
+                </span>
+                <span class="habit-name">{{ trophy().habit_name || 'Racha Requerida' }}</span>
+              </div>
+              <span class="streak-ratio">
+                {{ data.currentStreak || 0 }} / {{ trophy().required_streak_days || trophy().targetValue || 0 }} días
+              </span>
+            </div>
+
+            <div class="progress-track">
+              <div 
+                class="progress-fill" 
+                [style.width.%]="(((data.currentStreak || 0) / (trophy().required_streak_days || trophy().targetValue || 1)) * 100) > 100 ? 100 : (((data.currentStreak || 0) / (trophy().required_streak_days || trophy().targetValue || 1)) * 100)">
+              </div>
+            </div>
+          </div>
+        }
+
+        @if (details()?.summary) {
+          <div class="summary-box">
+            <span class="summary-label">Resumen:</span>
+            <span class="summary-text">{{ details()!.summary }}</span>
+          </div>
+        }
+      </div>
+    }
+
+    @if (errorMessage()) {
+      <div class="error-banner">
+        <span class="material-symbols-outlined">error</span>
+        <span>{{ errorMessage() }}</span>
+      </div>
+    }
+  </div>
+
+  <div class="modal-footer">
+    @if (!isUnlocked()) {
+      <button 
+        type="button" 
+        class="btn-delete" 
+        (click)="deleteTrophy()" 
+        [disabled]="isDeleting()">
+        <span class="material-symbols-outlined">delete</span>
+        <span>{{ isDeleting() ? 'Eliminando...' : 'Eliminar Trofeo' }}</span>
+      </button>
+    }
+    <button type="button" class="btn-primary" (click)="close()">
+      Entendido
+    </button>
+  </div>
+</div>

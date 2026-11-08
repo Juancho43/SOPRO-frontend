@@ -5,6 +5,40 @@
   gap: 16px;
 }
 
+.action-header {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.create-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 12px;
+  background: rgba(139, 92, 246, 0.12);
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  color: #c4b5fd;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+
+  &:hover {
+    background: rgba(139, 92, 246, 0.22);
+    border-color: #a78bfa;
+    color: #ffffff;
+    box-shadow: 0 0 16px rgba(139, 92, 246, 0.25);
+  }
+
+  .material-symbols-outlined {
+    font-size: 20px;
+  }
+}
+
 .balance-card {
   background: #181820;
   border-radius: 20px;
@@ -94,14 +128,31 @@
   white-space: nowrap;
   transition: all 0.2s ease;
 
+  .chip-edit-icon {
+    font-size: 14px;
+    opacity: 0.4;
+    transition: opacity 0.2s, color 0.2s;
+  }
+
   &:hover {
     border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+
+    .chip-edit-icon {
+      opacity: 1;
+      color: #c4b5fd;
+    }
   }
 
   &.selected {
     border-color: #8b5cf6;
     background: rgba(139, 92, 246, 0.15);
     color: #ffffff;
+
+    .chip-edit-icon {
+      opacity: 0.8;
+      color: #ffffff;
+    }
   }
 }
 

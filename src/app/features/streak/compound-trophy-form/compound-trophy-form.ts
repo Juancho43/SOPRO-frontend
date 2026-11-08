@@ -5,6 +5,7 @@ import { HabitWithStreak } from '../logic/Habit';
 import { TrophyHTTP } from '../logic/trophy-http';
 import { HabitHTTP } from '../logic/habit-http';
 import { FormsModule } from '@angular/forms';
+import { CreateTrophyPayload } from '../logic/Trophy';
 
 interface CompoundTrophyFormModel {
   name: string;
@@ -16,7 +17,7 @@ interface CompoundTrophyFormModel {
 
 @Component({
   selector: 'app-compound-trophy-form',
-  imports: [FormField,FormsModule],
+  imports: [FormField, FormsModule],
   templateUrl: './compound-trophy-form.html',
   styleUrl: './compound-trophy-form.scss',
 })
@@ -62,9 +63,21 @@ export class CompoundTrophyForm implements OnInit {
       return;
     }
 
-    const payload = {
-      ...this.trophyForm().value(),
-      targetHabitIds: this.selectedHabitIds(),
+    const val = this.trophyForm().value();
+    const threshold = Number(val.targetValue);
+    const payload: CreateTrophyPayload = {
+      name: val.name,
+      title: val.name,
+      description: val.description,
+      icon: val.icon,
+      color: '#3B82F6',
+      target_type: 'synergy',
+      isSynergy: true,
+      required_streak_days: threshold,
+      conditions: this.selectedHabitIds().map((hId) => ({
+        habit_id: hId,
+        required_streak_days: threshold,
+      })),
     };
     this.isSubmitting.set(true);
 

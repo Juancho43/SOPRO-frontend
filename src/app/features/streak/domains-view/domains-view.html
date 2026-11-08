@@ -1,4 +1,12 @@
 <div class="domains-container">
+  <!-- Botón de acción para crear nuevo dominio -->
+  <div class="action-header">
+    <button class="create-btn" (click)="openCreateDomainModal()">
+      <span class="material-symbols-outlined">add</span>
+      <span>Añadir Nuevo Dominio</span>
+    </button>
+  </div>
+
   <!-- Balance Score Card -->
   <div class="balance-card">
     <div class="score-header">
@@ -16,15 +24,17 @@
     </div>
   </div>
 
-  <!-- Chips de Categorías/Dominios -->
+  <!-- Chips de Categorías/Dominios con click para editar/eliminar -->
   <div class="chips-scroll">
     @for (dom of domains(); track dom.id) {
       <button 
         class="domain-chip" 
         [class.selected]="selectedDomainId() === dom.id"
-        (click)="toggleDomainSelection(dom.id)">
+        (click)="openEditDomainModal(dom)"
+        [title]="'Click para editar o eliminar ' + dom.name">
         <span class="chip-color-dot" [style.background]="dom.colorHex"></span>
         <span class="chip-name">{{ dom.name }}</span>
+        <span class="material-symbols-outlined chip-edit-icon">edit</span>
       </button>
     }
   </div>

@@ -26,7 +26,8 @@
       @for (trophy of trophies(); track trophy.id) {
         <app-trophy-card 
           [trophy]="trophy" 
-          [currentStreak]="currentStreaks()[trophy.id] || 0" />
+          [currentStreak]="currentStreaks()[trophy.id] || 0"
+          (cardClick)="openTrophyDetail(trophy)" />
       }
     </div>
   }

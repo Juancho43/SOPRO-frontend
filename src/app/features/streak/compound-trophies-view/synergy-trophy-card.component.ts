@@ -1,4 +1,4 @@
-import { Component, input, computed } from '@angular/core';
+import { Component, input, output, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SynergyStatus } from '../logic/Trophy';
 
@@ -16,7 +16,15 @@ export interface SynergyTrophyModel {
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="synergy-card" [class.unlocked]="isUnlocked()">
+    <div 
+      class="synergy-card" 
+      [class.unlocked]="isUnlocked()"
+      (click)="cardClick.emit(trophy())"
+      tabindex="0"
+      role="button"
+      (keydown.enter)="cardClick.emit(trophy())"
+      (keydown.space)="cardClick.emit(trophy())"
+    >
       <div class="card-top">
         <div class="rarity-badge">{{ rarityLabel() }}</div>
         <div class="lock-indicator" *ngIf="!isUnlocked()">
@@ -92,6 +100,13 @@ export interface SynergyTrophyModel {
       flex-direction: column;
       gap: 14px;
       position: relative;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      }
     }
 
     .synergy-card.unlocked {
@@ -283,9 +298,11 @@ export interface SynergyTrophyModel {
 export class SynergyTrophyCardComponent {
   trophy = input.required<SynergyTrophyModel>();
   status = input<SynergyStatus | null>(null);
+  cardClick = output<SynergyTrophyModel>();
 
   isUnlocked = computed(() => {
-    return this.status()?.isCompleted ?? false;
+    const st = this.status();
+    return st?.isCompleted ?? st?.unlocked ?? st?.isUnlocked ?? false;
   });
 
   trophyIcon = computed(() => {
@@ -298,18 +315,31 @@ export class SynergyTrophyCardComponent {
   });
 
   comboText = computed(() => {
-    const list = this.status()?.habitProgress;
-    if (list && list.length > 0) {
-      return list.map((item) => item.habitName).join(' + ');
+    const st = this.status();
+    if (st?.habitProgress && st.habitProgress.length > 0) {
+      return st.habitProgress.map((item) => item.habitName).join(' + ');
+    }
+    if (st?.progress && st.progress.length > 0) {
+      return st.progress.map((item) => item.habit_name).join(' + ');
+    }
+    if (st?.requirements && st.requirements.length > 0) {
+      return st.requirements.map((item) => item.habitName || item.habitId).join(' + ');
     }
     return this.trophy().description || 'Hábito A + Hábito B';
   });
 
   currentCombinedStreak = computed(() => {
-    const list = this.status()?.habitProgress;
-    if (!list || list.length === 0) return 0;
-    // La racha combinada efectiva es el mínimo de las rachas de los hábitos que componen la sinergia
-    return Math.min(...list.map((h) => h.currentStreak));
+    const st = this.status();
+    if (st?.habitProgress && st.habitProgress.length > 0) {
+      return Math.min(...st.habitProgress.map((h) => h.currentStreak));
+    }
+    if (st?.progress && st.progress.length > 0) {
+      return Math.min(...st.progress.map((h) => h.current_streak));
+    }
+    if (st?.requirements && st.requirements.length > 0) {
+      return Math.min(...st.requirements.map((r) => r.currentStreak || 0));
+    }
+    return 0;
   });
 
   progressPercentage = computed(() => {

@@ -4,20 +4,19 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { HabitWithStreak } from '../logic/Habit';
 import { TrophyHTTP } from '../logic/trophy-http';
 import { HabitHTTP } from '../logic/habit-http';
-import { FormsModule } from '@angular/forms';
+import { CreateTrophyPayload } from '../logic/Trophy';
 
 interface TrophyFormModel {
   name: string;
   description: string;
   icon: string;
-  conditionType: string;
   targetValue: number;
   targetHabitId: string;
 }
 
 @Component({
   selector: 'app-trophy-form',
-  imports: [FormField,FormsModule],
+  imports: [FormField],
   templateUrl: './trophy-form.html',
   styleUrl: './trophy-form.scss',
 })
@@ -33,7 +32,6 @@ export class TrophyForm implements OnInit {
     name: '',
     description: 'Logro por consistencia',
     icon: 'emoji_events',
-    conditionType: 'habit_streak',
     targetValue: 7,
     targetHabitId: '',
   });
@@ -59,9 +57,16 @@ export class TrophyForm implements OnInit {
     }
 
     const raw = this.trophyForm().value();
-    const payload = {
-      ...raw,
-      targetHabitIds: [raw.targetHabitId],
+    const payload: CreateTrophyPayload = {
+      name: raw.name,
+      title: raw.name,
+      description: raw.description,
+      icon: raw.icon,
+      color: '#FFD700',
+      target_type: 'habit',
+      isSynergy: false,
+      habit_id: raw.targetHabitId,
+      required_streak_days: Number(raw.targetValue),
     };
     this.isSubmitting.set(true);
 

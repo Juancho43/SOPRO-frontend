@@ -1,9 +1,16 @@
 <form (ngSubmit)="submit()" class="m3-form-surface">
-  <h2 class="form-title">Nuevo Dominio</h2>
+  <div class="form-header-row">
+    <h2 class="form-title">
+      {{ isEdit() ? 'Editar Dominio' : 'Nuevo Dominio' }}
+    </h2>
+    <button type="button" class="btn-close-icon" (click)="close()" aria-label="Cerrar modal">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+  </div>
 
   <div class="m3-field">
     <input id="d-name" [formField]="domainForm.name" placeholder=" " />
-    <label for="d-name">Nombre del Dominio (ej. Finanzas)</label>
+    <label for="d-name">Nombre del Dominio (ej. Finanzas & Libertad)</label>
     @if (domainForm.name().touched() && domainForm.name().invalid()) {
       <div class="error-msg">
         @for (error of domainForm.name().errors(); track error) {
@@ -23,11 +30,32 @@
     <label for="d-color" style="top: -10px; left: 12px; font-size: 13px;">Color del Dominio</label>
   </div>
 
-  <button
-    type="submit"
-    class="m3-btn-submit"
-    [disabled]="domainForm().invalid() || isSubmitting()"
-  >
-    {{ isSubmitting() ? 'Creando...' : 'Crear Dominio' }}
-  </button>
+  @if (errorMessage()) {
+    <div class="error-banner">
+      <span class="material-symbols-outlined">error</span>
+      <span>{{ errorMessage() }}</span>
+    </div>
+  }
+
+  <div class="form-actions-row">
+    @if (isEdit()) {
+      <button
+        type="button"
+        class="m3-btn-delete"
+        (click)="deleteDomain()"
+        [disabled]="isDeleting() || isSubmitting()"
+      >
+        <span class="material-symbols-outlined">delete</span>
+        <span>{{ isDeleting() ? 'Eliminando...' : 'Eliminar' }}</span>
+      </button>
+    }
+
+    <button
+      type="submit"
+      class="m3-btn-submit"
+      [disabled]="domainForm().invalid() || isSubmitting() || isDeleting()"
+    >
+      {{ isSubmitting() ? (isEdit() ? 'Guardando...' : 'Creando...') : (isEdit() ? 'Guardar Cambios' : 'Crear Dominio') }}
+    </button>
+  </div>
 </form>
