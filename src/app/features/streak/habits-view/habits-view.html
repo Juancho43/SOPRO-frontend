@@ -24,7 +24,8 @@
           [habit]="habit" 
           [historyDates]="histories()[habit.id] || []"
           [loading]="checkingInId() === habit.id"
-          (checkIn)="onHabitCheckIn($event)" />
+          (checkIn)="onHabitCheckIn($event)"
+          (edit)="openEditHabitModal($event)" />
       }
     </div>
   }

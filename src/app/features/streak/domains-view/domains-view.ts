@@ -91,20 +91,24 @@ export class DomainsView implements OnInit {
     // Mapeamos los puntos de esfuerzo acumulado por domainId
     const effortByDomain: Record<string, number> = {};
     metrics.forEach((m) => {
-      effortByDomain[m.domainId] = (effortByDomain[m.domainId] || 0) + m.effortValue;
+      const id = m.domainId || m.domain_id;
+      const score = Number(m.effortScore ?? m.effort_score ?? m.effortValue ?? 0);
+      if (id) {
+        effortByDomain[id] = score;
+      }
     });
 
     if (doms.length === 0) return [];
 
     return doms.map((d) => {
-      // Normalizamos el valor de esfuerzo entre 20 y 95 para una visualización armónica
-      const rawEffort = effortByDomain[d.id] || (d.habitCount > 0 ? 60 : 30);
-      const score = Math.min(Math.max(rawEffort, 20), 100);
+      const habitCount = Number(d.habitCount ?? d.habit_count ?? 0);
+      const rawEffort = effortByDomain[d.id] ?? (habitCount > 0 ? 50 : 20);
+      const score = Math.min(Math.max(rawEffort, 15), 100);
 
       return {
         label: d.name,
         value: score,
-        color: d.colorHex || '#ff9100',
+        color: d.colorHex || d.color || '#ff9100',
       };
     });
   });

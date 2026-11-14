@@ -61,20 +61,35 @@ export class HabitsView implements OnInit {
     this.checkingInId.set(habitId);
     this.habitHttp.checkInHabit(habitId).subscribe({
       next: (result) => {
+        const newStreak = Number(result.currentStreak ?? result.newStreak ?? 0);
         // Actualizamos de forma reactiva el hábito en la lista
         this.habits.update((list) =>
           list.map((h) => {
             if (h.id === habitId) {
+              const prev = Number(h.currentStreak ?? h.current_streak ?? 0);
+              const streak = newStreak > 0 ? newStreak : prev + 1;
               return {
                 ...h,
-                currentStreak: result.newStreak ?? h.currentStreak + 1,
-                completedToday: true
+                currentStreak: streak,
+                current_streak: streak,
+                completedToday: true,
+                completed_today: true,
               };
             }
             return h;
           })
         );
         this.checkingInId.set(null);
+
+        // Recargar historial del hábito para actualizar el mapa de calor reactivamente
+        this.habitHttp.getHabitHistory(habitId).subscribe({
+          next: (dates) => {
+            this.histories.update((current) => ({
+              ...current,
+              [habitId]: dates || [],
+            }));
+          },
+        });
       },
       error: (err) => {
         console.error('Error al marcar hábito:', err);
@@ -87,11 +102,32 @@ export class HabitsView implements OnInit {
     const dialogRef = this.dialog.open(HabitForm, {
       panelClass: 'modal-transparente',
       maxWidth: '92vw',
-      width: '380px'
+      width: '400px',
+      data: {
+        mode: 'create',
+      },
     });
 
-    dialogRef.afterClosed().subscribe((created) => {
-      if (created) {
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res) {
+        this.loadHabits();
+      }
+    });
+  }
+
+  openEditHabitModal(habit: HabitWithStreak) {
+    const dialogRef = this.dialog.open(HabitForm, {
+      panelClass: 'modal-transparente',
+      maxWidth: '92vw',
+      width: '400px',
+      data: {
+        mode: 'edit',
+        habit,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res) {
         this.loadHabits();
       }
     });

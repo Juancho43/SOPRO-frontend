@@ -1,5 +1,12 @@
 <form (ngSubmit)="submit()" class="m3-form-surface">
-  <h2 class="form-title">Forjar Hábito</h2>
+  <div class="form-header-row">
+    <h2 class="form-title">
+      {{ isEdit() ? 'Editar Hábito' : 'Forjar Hábito' }}
+    </h2>
+    <button type="button" class="btn-close-icon" (click)="close()" aria-label="Cerrar modal">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+  </div>
 
   <div class="m3-field">
     <input id="h-name" [formField]="habitForm.name" placeholder=" " />
@@ -15,27 +22,63 @@
 
   <div class="m3-field is-select">
     <select id="h-freq" [formField]="habitForm.frequency">
-      <option value="daily">Diario</option>
-      <option value="weekly">Semanal</option>
+      <option value="daily">Diario (Todos los días - 7 días)</option>
+      <option value="weekdays">Días Laborales (Lunes a Viernes - 5 días)</option>
+      <option value="weekly">Flexible (X veces por semana)</option>
     </select>
     <label for="h-freq">Frecuencia</label>
   </div>
 
+  @if (habitForm.frequency().value() === 'weekly') {
+    <div class="m3-field is-select">
+      <select id="h-target" [formField]="habitForm.weeklyTarget">
+        <option value="1">1 día por semana</option>
+        <option value="2">2 días por semana</option>
+        <option value="3">3 días por semana</option>
+        <option value="4">4 días por semana</option>
+        <option value="5">5 días por semana</option>
+        <option value="6">6 días por semana</option>
+      </select>
+      <label for="h-target">Meta semanal</label>
+    </div>
+  }
+
   <div class="m3-field is-select">
     <select id="h-domain" [formField]="habitForm.domainId">
-      <option value="">Selecciona un Dominio (Opcional)...</option>
+      <option value="">Sin Dominio (Opcional)</option>
       @for (domain of domains(); track domain.id) {
         <option [value]="domain.id">{{ domain.name }}</option>
       }
     </select>
-    <label for="h-domain">Dominio de Excelencia (Opcional)</label>
+    <label for="h-domain">Dominio de Excelencia</label>
   </div>
 
-  <button
-    type="submit"
-    class="m3-btn-submit"
-    [disabled]="habitForm().invalid() || isSubmitting()"
-  >
-    {{ isSubmitting() ? 'Activando...' : 'Activar Hábito' }}
-  </button>
+  @if (errorMessage()) {
+    <div class="error-banner">
+      <span class="material-symbols-outlined">error</span>
+      <span>{{ errorMessage() }}</span>
+    </div>
+  }
+
+  <div class="form-actions-row">
+    @if (isEdit()) {
+      <button
+        type="button"
+        class="m3-btn-delete"
+        (click)="deleteHabit()"
+        [disabled]="isDeleting() || isSubmitting()"
+      >
+        <span class="material-symbols-outlined">delete</span>
+        <span>{{ isDeleting() ? 'Eliminando...' : 'Eliminar' }}</span>
+      </button>
+    }
+
+    <button
+      type="submit"
+      class="m3-btn-submit"
+      [disabled]="habitForm().invalid() || isSubmitting() || isDeleting()"
+    >
+      {{ isSubmitting() ? (isEdit() ? 'Guardando...' : 'Activando...') : (isEdit() ? 'Guardar Cambios' : 'Activar Hábito') }}
+    </button>
+  </div>
 </form>
